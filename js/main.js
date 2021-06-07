@@ -72,9 +72,7 @@ getRandomDig(2,4,3);
 const createAuthor = () => {
 //Сначала найдём случайное значение от 1 до 8 и выведем его в консоль.
   const num = getRandomInteger (1,8);
-  function zeroPad (num, places) {
-    return String(num).padStart(places, '0');
-  }
+  const zeroPad = (num1, places) => String(num1).padStart(places, '0');
   const userNumber =  zeroPad(num, 2);
 
   //Создаём объект Author в соответствии с заданием
@@ -89,7 +87,7 @@ const createAuthor = () => {
 // в консоль выскакивает объект с двумя свойствами, первое нормально, второе какое-то __proto__:Object, я его не делал. Спросить у наставника.
 
 
-function createFeatures() {
+const createFeatures = () => {
   //функция по созданию массива строк случайной длины из значений:
   //wifi, dishwasher, parking, washer, elevator, conditioner. Значения не должны повторяться.
   //Назовём нужный нам массив mustArray
@@ -137,9 +135,9 @@ function createFeatures() {
   }
 
   return mustArray;
-}
+};
 
-function createPhotos() {
+const createPhotos = () => {
   const lengthArray = getRandomInteger(1,3);
   const mustArray1 = [];
   const timeArray1 = [];
@@ -161,7 +159,7 @@ function createPhotos() {
     mustArray1.push(PHOTOS[timeArray1[index]]);
   }
   return mustArray1;
-}
+};
 
 // второй объект offer в главном объекте массива, содержит информацию об объявлении, состоит из 11 полей
 //Здесь мы создали массив из возможных типов жилья, потом написали фунцию, которая случайным образом
@@ -173,9 +171,7 @@ const createOffer = () => {
   const roomsNumber = getRandomInteger(1,20);
   const guestsNumber = getRandomInteger(1,100);
 
-  const getRandomArrayElement = (elements) => {
-    return elements[_.random(0, elements.length - 1)];
-  };
+  const getRandomArrayElement = (elements) => elements[_.random(0, elements.length - 1)];
 
   return {
     title: 'Предлагаем вам отличное жильё',
