@@ -220,7 +220,7 @@ const template = document.querySelector('#card').content;
 const element = template.querySelector('.popup');
 
 //клонирую это содержимое
-const clonedElement = element.cloneNode(true);
+//const clonedElement = element.cloneNode(true);
 
 
 //вызываю функцию, чтобы она дала нам все значения для всех нужных строк
@@ -280,7 +280,7 @@ const popupTextPrice = element.querySelector('.popup__text--price');
 
 //передаю последний текст в текстовое содержимое тегу
 //всё хорошо, всё работает
-popupTextPrice.innerHTML = OFFER.price + '<span> ₽/ночь </span>';
+popupTextPrice.innerHTML = `${OFFER.price} + '<span> ₽/ночь </span>'`;
 
 //задание успешно выполнено, применён опасный код innerHTML
 
@@ -329,7 +329,8 @@ if (popupType.textContent === 'bungalow') {
         }
       }
     }
-  };
+  }
+}
 
 //Задача № 4 успешно решена, всё работает, переводит
 //Возможно, алгоритм не очень эффективный, но работает
@@ -339,6 +340,7 @@ if (popupType.textContent === 'bungalow') {
 // в блок .popup__text--capacity
 // строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей.
 // Например, «2 комнаты для 3 гостей.
+
 //0. Смотрю, какое новое предложение выдала функция
 //1. Присваиваю значение переменной popupCapasity
 // Это значание равно текстовому значению тега p с классом popup__text--capacity
@@ -360,7 +362,7 @@ const offerGuests = OFFER.guests;
 //   и присваиваю ей значание этой фразы.
 // здесь бы сделать что-то с окончаниями на случай, если окончания неверны
 
-const capacity = offerRooms + ' комнаты для ' + offerGuests + ' гостей';
+const capacity = `${offerRooms} + ' комнаты для ' + ${offerGuests} + ' гостей'`;
 
 // 5. Присваиваем это значание тегу p c классом  popup__text--capacity
 
@@ -394,7 +396,7 @@ const offerCheckout = OFFER.checkout;
 //   и присваиваю ей значание этой фразы.
 // здесь бы сделать что-то с окончаниями на случай, если окончания неверны
 
-const popupNewTime = 'Заезд до ' + offerCheckin + ', выезд после ' + offerCheckout;
+const popupNewTime = `'Заезд до ' + ${offerCheckin} + ', выезд после ' + ${offerCheckout}`;
 
 // 5. Присваиваем это значание тегу p c классом  popup__text--capacity
 
@@ -421,3 +423,5 @@ const offerDescription = OFFER.description;
 //4. Передаю новое значение описания в текстовое содержимое тега p
 // и вывожу в консоль, чтобы посмотреть на новый адрес
 popupDescription.textContent = offerDescription;
+
+//Задача № 8 успешно решена
