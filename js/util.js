@@ -214,3 +214,210 @@ for (let index = 0; index <= 9; index++) {
   tenProposal[index] = createProposal();
   tenProposal.push[tenProposal[index]];
 }
+
+//Достаю из шаблона его содержимое и присваиваю переменной element
+const template = document.querySelector('#card').content;
+const element = template.querySelector('.popup');
+
+//клонирую это содержимое
+const clonedElement = element.cloneNode(true);
+
+
+//вызываю функцию, чтобы она дала нам все значения для всех нужных строк
+//предложения и вывожу посмотреть что эта функция выдала
+const OFFER = createOffer();
+
+//начинаю делать первое задание - заголовок объявления offer_title
+//вывести в заголовок popup__title
+
+//1. Присваиваю значение тега h3 переменной popupTitle
+const popupTitle = element.querySelector('h3');
+//2. Вывожу текстовое содержимое этого тега в консоль
+//Это значание, которое с шаблоне в HTML
+
+//3. создаю переменную offerTitle и присваиваю ей новое значение заголовка
+//нового предложения. После этого вывожу это значение в консоль
+const offerTitle = OFFER.title;
+
+//4. передаю новое значание заголовка в текстовое содержимое h3
+popupTitle.textContent = offerTitle;
+
+// Успешно сделал первое задание
+
+//Следующее задание:
+//нужно ввести адрес offer.address в блок .popup__text--address
+
+//0. смотрю, что у нас с адресом
+//выводится значение с иксом и игреком, ладно.
+
+//1. Создаю перемееную popupAddress и присваиваю значение тега p
+//c классом popup__text--address это переменной
+const popupAddress = element.querySelector('.popup__text--address');
+
+//2. Вывожу текстовое содержимое этого тега в консоль
+//Это значание, которое с шаблоне в HTML
+
+//3. создаю переменную offerTitle и присваиваю ей новое значение заголовка
+//нового предложения. После этого вывожу это значение в консоль
+const offerAddress = OFFER.address;
+
+//4. Передаю новое значение адреса в текстовое содержимое тега p
+// и вывожу в консоль, чтобы посмотреть на новый адрес
+popupAddress.textContent = offerAddress;
+
+//Задание 2 успешно выполнено. Всё ОК.
+
+//Задание 3 Выведите цену offer.price в блок .popup__text--price
+//строкой вида {{offer.price}} ₽/ночь. Например, «5200 ₽/ночь».
+
+//0.смотрю, что у нас с ценой
+//выводится шестизначное число. Всё нормально.
+
+//1.Нужно как-то вставить это число, не меняя то, что внутри тега span
+//присваиваю значение тега p c классом popup__text--price
+//переменной popupPrice
+const popupTextPrice = element.querySelector('.popup__text--price');
+
+//передаю последний текст в текстовое содержимое тегу
+//всё хорошо, всё работает
+popupTextPrice.innerHTML = OFFER.price + '<span> ₽/ночь </span>';
+
+//задание успешно выполнено, применён опасный код innerHTML
+
+//Задание 4
+//В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
+// Квартира для flat
+// Бунгало для bungalow
+// Дом для house
+// Дворец для palace
+// Отель для hotel
+
+//0. Смотрю, какое новое предложение выдала функция
+//Выдаёт только одно значение
+
+// 1.присваиваю значение тега p c классом popup__text--type
+//переменной popupType
+
+const popupType = element.querySelector('.popup__type');
+
+//2. Вывожу текстовое содержимое этого тега в консоль
+
+//3. создаю переменную offerType и присваиваю ей новое значение типа жилья
+//нового предложения. После этого вывожу это значение в консоль
+const offerType = OFFER.type;
+
+//4. Присваиваю это новое значение тегу p c классом popup_type
+
+popupType.textContent = offerType;
+
+//5. Занимаемся переводом тивов жилья с английского на русский язык
+
+if (popupType.textContent === 'bungalow') {
+  popupType.textContent = 'Бунгало';
+} else {
+  if (popupType.textContent === 'house') {
+    popupType.textContent = 'Дом';
+  } else {
+    if (popupType.textContent === 'palace') {
+      popupType.textContent = 'Дворец';
+    } else {
+      if (popupType.textContent === 'flat') {
+        popupType.textContent = 'Квартира';
+      } else {
+        if (popupType.textContent === 'hotel') {
+          popupType.textContent = 'Отель';
+        }
+      }
+    }
+  };
+
+//Задача № 4 успешно решена, всё работает, переводит
+//Возможно, алгоритм не очень эффективный, но работает
+
+//Задача № 5
+// Выведите количество гостей и комнат offer.rooms и offer.guests
+// в блок .popup__text--capacity
+// строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей.
+// Например, «2 комнаты для 3 гостей.
+//0. Смотрю, какое новое предложение выдала функция
+//1. Присваиваю значение переменной popupCapasity
+// Это значание равно текстовому значению тега p с классом popup__text--capacity
+
+const popupCapacity = element.querySelector('.popup__text--capacity');
+
+//2. Вывожу текстовое значение этой переменной в консоль.
+
+
+//3. Создаю переменную offerRooms для хранения числа гостей
+// и присваиваю ей число гостей.
+const offerRooms = OFFER.rooms;
+
+//3. Создаю переменную offerGuests для хранения числа гостей
+// и присваиваю ей число гостей.
+const offerGuests = OFFER.guests;
+
+// 4. Создаю переменную для хранения фразы "N комнат для M гостей"
+//   и присваиваю ей значание этой фразы.
+// здесь бы сделать что-то с окончаниями на случай, если окончания неверны
+
+const capacity = offerRooms + ' комнаты для ' + offerGuests + ' гостей';
+
+// 5. Присваиваем это значание тегу p c классом  popup__text--capacity
+
+popupCapacity.textContent = capacity;
+
+//Задача № 5 успешно решена
+
+// Задача № 6
+// Время заезда и выезда offer.checkin и offer.checkout в блок
+// .popup__text--time строкой вида Заезд после {{offer.checkin}},
+// выезд до {{offer.checkout}}. Например, «Заезд после 14:00, выезд до 14:00»
+
+//0. Смотрю, какое новое предложение выдала функция
+
+//1. Присваиваю значение переменной popupCapasity
+// Это значание равно текстовому значению тега p с классом popup__text--capacity
+
+const popupTime = element.querySelector('.popup__text--time');
+
+//2. Вывожу текстовое значение этой переменной в консоль.
+
+//3. Создаю переменную offerRooms для хранения числа гостей
+// и присваиваю ей число гостей.
+const offerCheckin = OFFER.checkin;
+
+//3. Создаю переменную offerGuests для хранения числа гостей
+// и присваиваю ей число гостей.
+const offerCheckout = OFFER.checkout;
+
+// 4. Создаю переменную для хранения фразы "N комнат для M гостей"
+//   и присваиваю ей значание этой фразы.
+// здесь бы сделать что-то с окончаниями на случай, если окончания неверны
+
+const popupNewTime = 'Заезд до ' + offerCheckin + ', выезд после ' + offerCheckout;
+
+// 5. Присваиваем это значание тегу p c классом  popup__text--capacity
+
+popupTime.textContent = popupNewTime;
+
+//Задача № 6 успешно решена
+
+//Задача №8
+//В блок .popup__description выведите описание объекта
+// недвижимости offer.description.
+
+// 0. Смотрим, какое значение даёт функция.
+
+//1. Создаю перемееную popupDescription и присваиваю значение тега p
+//c классом popup__description этой переменной
+const popupDescription = element.querySelector('.popup__description');
+
+//2. Вывожу текстовое значение этой переменной в консоль.
+
+//3. создаю переменную offerDescription и присваиваю ей новое значение заголовка
+//нового предложения. После этого вывожу это значение в консоль
+const offerDescription = OFFER.description;
+
+//4. Передаю новое значение описания в текстовое содержимое тега p
+// и вывожу в консоль, чтобы посмотреть на новый адрес
+popupDescription.textContent = offerDescription;
