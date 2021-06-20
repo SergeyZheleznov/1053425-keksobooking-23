@@ -215,74 +215,111 @@ for (let index = 0; index <= 9; index++) {
   tenProposal.push[tenProposal[index]];
 }
 
-//Достаю из шаблона его содержимое и присваиваю переменной element
-const template = document.querySelector('#card').content;
-const element = template.querySelector('.popup');
+//Достаю из шаблона его содержимое
 
-//клонирую это содержимое
-//const clonedElement = element.cloneNode(true);
+const templateFragment = document.querySelector('#card').content;
 
+//присваиваю содержимое тега c классом popup__title переменной template
+const template = templateFragment.querySelector('.popup__title');
+
+//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
+
+const fragment = document.createDocumentFragment();
+
+//клонирую элемент с классом popop__title со всеми "внутренностями"
+const element = template.cloneNode(true);
 
 //вызываю функцию, чтобы она дала нам все значения для всех нужных строк
 //предложения и вывожу посмотреть что эта функция выдала
 const OFFER = createOffer();
 
-//начинаю делать первое задание - заголовок объявления offer_title
-//вывести в заголовок popup__title
+//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
+element.textContent = OFFER.title;
 
-//1. Присваиваю значение тега h3 переменной popupTitle
-const popupTitle = element.querySelector('h3');
-//2. Вывожу текстовое содержимое этого тега в консоль
-//Это значание, которое с шаблоне в HTML
+//складываю созданный элемент в коробочку
 
-//3. создаю переменную offerTitle и присваиваю ей новое значение заголовка
-//нового предложения. После этого вывожу это значение в консоль
-const offerTitle = OFFER.title;
+fragment.appendChild(element);
 
-//4. передаю новое значание заголовка в текстовое содержимое h3
-popupTitle.textContent = offerTitle;
+//всё работает, мы получили тег
+//<h3 class="popup__title">Предлагаем вам отличное жильё</h3>
+//задача решена
 
-// Успешно сделал первое задание
+/*
+
+const el = document.getElementById('title');
+el.placeholder = `${OFFER.title}`;
+
+//Всё заработало, на странице отрисовалась фраза
+// Предлагаем вам отличное жильё
 
 //Следующее задание:
 //нужно ввести адрес offer.address в блок .popup__text--address
 
-//0. смотрю, что у нас с адресом
-//выводится значение с иксом и игреком, ладно.
+//присваиваю содержимое тега c классом popup__text--address переменной template
+const template1 = templateFragment.querySelector('.popup__text--address');
+console.log(template1);
 
-//1. Создаю перемееную popupAddress и присваиваю значение тега p
-//c классом popup__text--address это переменной
-const popupAddress = element.querySelector('.popup__text--address');
+//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
+const fragment1 = document.createDocumentFragment();
+console.log(fragment1);
 
-//2. Вывожу текстовое содержимое этого тега в консоль
-//Это значание, которое с шаблоне в HTML
+//клонирую элемент с классом popop__title со всеми "внутренностями"
+const element1 = template1.cloneNode(true);
 
-//3. создаю переменную offerTitle и присваиваю ей новое значение заголовка
-//нового предложения. После этого вывожу это значение в консоль
-const offerAddress = OFFER.address;
+//функцию мы уже вызывали один раз, достаточно
 
-//4. Передаю новое значение адреса в текстовое содержимое тега p
-// и вывожу в консоль, чтобы посмотреть на новый адрес
-popupAddress.textContent = offerAddress;
+//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
+element1.textContent = OFFER.address;
+console.log(OFFER.address);
+
+//складываю созданный элемент в коробочку
+
+fragment1.appendChild(element1);
+console.log(element1);
+
+//всё работает, мы получили тег
+//<h3 class="popup__address">Предлагаем вам отличное жильё</h3>
+//как его дальше использовать, куда вставить эту коробочку
+
+const el1 = document.getElementById('address');
+el1.placeholder = `${OFFER.address}`;
 
 //Задание 2 успешно выполнено. Всё ОК.
+//На странице рисуется location.x, location.y
 
 //Задание 3 Выведите цену offer.price в блок .popup__text--price
 //строкой вида {{offer.price}} ₽/ночь. Например, «5200 ₽/ночь».
 
-//0.смотрю, что у нас с ценой
-//выводится шестизначное число. Всё нормально.
+//присваиваю содержимое тега c классом popup__text--price переменной template
+const template2 = templateFragment.querySelector('.popup__text--price');
+console.log(template2);
 
-//1.Нужно как-то вставить это число, не меняя то, что внутри тега span
-//присваиваю значение тега p c классом popup__text--price
-//переменной popupPrice
-const popupTextPrice = element.querySelector('.popup__text--price');
+//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
+const fragment2 = document.createDocumentFragment();
+console.log(fragment2);
 
-//передаю последний текст в текстовое содержимое тегу
-//всё хорошо, всё работает
-popupTextPrice.innerHTML = `${OFFER.price} + '<span> ₽/ночь </span>'`;
+//клонирую элемент с классом popop__title со всеми "внутренностями"
+const element2 = template2.cloneNode(true);
 
-//задание успешно выполнено, применён опасный код innerHTML
+//функцию мы уже вызывали один раз, достаточно
+
+//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
+element2.textContent = `${OFFER.price} + <span> ₽/ночь </span>`;
+console.log(OFFER.price);
+
+//складываю созданный элемент в коробочку
+
+fragment2.appendChild(element2);
+console.log(element2);
+
+//всё работает, мы получили тег
+//<h3 class="popup__address">Предлагаем вам отличное жильё</h3>
+//как его дальше использовать, куда вставить эту коробочку
+
+const el2 = document.getElementById('price');
+el2.placeholder = `${OFFER.price}`;
+
+//задание 3 успешно выполнено, применён опасный код innerHTML
 
 //Задание 4
 //В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
@@ -291,6 +328,83 @@ popupTextPrice.innerHTML = `${OFFER.price} + '<span> ₽/ночь </span>'`;
 // Дом для house
 // Дворец для palace
 // Отель для hotel
+
+//присваиваю содержимое тега c классом popup__type переменной template
+const template3 = templateFragment.querySelector('.popup__type');
+console.log(template3);
+
+//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
+const fragment3 = document.createDocumentFragment();
+console.log(fragment3);
+
+//клонирую элемент с классом popop__title со всеми "внутренностями"
+const element3 = template3.cloneNode(true);
+console.log(element3);
+//функцию мы уже вызывали один раз, достаточно
+
+//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__type
+element3.textContent = OFFER.type;
+console.log(OFFER.type);
+
+// Занимаемся переводом тивов жилья с английского на русский язык
+
+if (element3.textContent === 'bungalow') {
+  element3.textContent = 'Бунгало';
+} else {
+  if (element3.textContent === 'house') {
+    element3.textContent = 'Дом';
+  } else {
+    if (element3.textContent === 'palace') {
+      element3.textContent = 'Дворец';
+    } else {
+      if (element3.textContent === 'flat') {
+        element3.textContent = 'Квартира';
+      } else {
+        if (element3.textContent === 'hotel') {
+          element3.textContent = 'Отель';
+        }
+      }
+    }
+  }
+}
+
+console.log(element3.textContent);
+
+//складываю созданный элемент в коробочку
+
+fragment3.appendChild(element3);
+console.log(element3);
+
+//всё работает, мы получили тег
+//вставляем коробочку в тег, чтобы отрисовалось
+//не получается, на странице остаётся старое значение "квартира"
+
+const el3 = document.getElementById('type');
+el3.placeholder = OFFER.type;
+
+console.log(el3.placeholder);
+
+// присваиваю значение тега p c классом popup__text--type
+//переменной popupType
+
+const popupType = .querySelector('.popup__type');
+console.log(popupType);
+
+//Присваиваю это новое значение тегу p c классом popup_type
+
+popupType.textContent = OFFER.type;
+
+console.log(popupType.textContent);
+/*
+//Задание 4
+//В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
+// Квартира для flat
+// Бунгало для bungalow
+// Дом для house
+// Дворец для palace
+// Отель для hotel
+
+/*
 
 //0. Смотрю, какое новое предложение выдала функция
 //Выдаёт только одно значение
@@ -302,15 +416,11 @@ const popupType = element.querySelector('.popup__type');
 
 //2. Вывожу текстовое содержимое этого тега в консоль
 
-//3. создаю переменную offerType и присваиваю ей новое значение типа жилья
-//нового предложения. После этого вывожу это значение в консоль
-const offerType = OFFER.type;
+//3. Присваиваю это новое значение тегу p c классом popup_type
 
-//4. Присваиваю это новое значение тегу p c классом popup_type
+popupType.textContent = OFFER.type;
 
-popupType.textContent = offerType;
-
-//5. Занимаемся переводом тивов жилья с английского на русский язык
+//4. Занимаемся переводом тивов жилья с английского на русский язык
 
 if (popupType.textContent === 'bungalow') {
   popupType.textContent = 'Бунгало';
@@ -416,12 +526,9 @@ const popupDescription = element.querySelector('.popup__description');
 
 //2. Вывожу текстовое значение этой переменной в консоль.
 
-//3. создаю переменную offerDescription и присваиваю ей новое значение заголовка
-//нового предложения. После этого вывожу это значение в консоль
-const offerDescription = OFFER.description;
-
-//4. Передаю новое значение описания в текстовое содержимое тега p
+//3. Передаю новое значение описания в текстовое содержимое тега p
 // и вывожу в консоль, чтобы посмотреть на новый адрес
-popupDescription.textContent = offerDescription;
+popupDescription.textContent = OFFER.description;
 
 //Задача № 8 успешно решена
+*/
