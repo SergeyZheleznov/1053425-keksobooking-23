@@ -240,9 +240,10 @@ element.textContent = OFFER.title;
 
 fragment.appendChild(element);
 
-//всё работает, мы получили тег
+//всё работает, задача
+//"Выведите заголовок объявления offer.title в заголовок .popup__title
 //<h3 class="popup__title">Предлагаем вам отличное жильё</h3>
-//задача решена
+//полностью решена
 
 /*
 
