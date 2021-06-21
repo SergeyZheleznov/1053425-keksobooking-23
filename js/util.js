@@ -48,15 +48,12 @@ const createAuthor = () => {
 
   //Создаём объект Author в соответствии с заданием
   const author = {
-    avatar: `img/avatars/${userNumber}.png`,
+    avatar: `img/avatars/user${userNumber}.png`,
   };
-  return {
-    author,
-  };
+  return author;
 };
 
 // в консоль выскакивает объект с двумя свойствами, первое нормально, второе какое-то __proto__:Object, я его не делал. Спросить у наставника.
-
 
 const createFeatures = () => {
   //функция по созданию массива строк случайной длины из значений:
@@ -136,7 +133,7 @@ const createPhotos = () => {
 //Здесь мы создали массив из возможных типов жилья, потом написали фунцию, которая случайным образом
 //выбирает из этих типов один тип жилья, и потом выдали в консоль результат работы этой фунции
 
-const createOffer = () => {
+const createOffer = (location) => {
 
   const priceNumber = getRandomInteger(1, 1000000);
   const roomsNumber = getRandomInteger(1, 20);
@@ -146,7 +143,7 @@ const createOffer = () => {
 
   return {
     title: 'Предлагаем вам отличное жильё',
-    address: 'location.x, location.y',
+    address: `${location.lat}, ${location.lng}`,
     price: priceNumber,
     type: getRandomArrayElement(TYPES),
     rooms: roomsNumber,
@@ -186,15 +183,14 @@ const createLocation = () => {
 //Он состоит из трёх объектов, которые мы уже создали ранее.
 
 const createProposal = () => {
+  const location = createLocation();
   const proposal = {
     author: createAuthor(),
-    offer: createOffer(),
-    location: createLocation(),
+    offer: createOffer(location),
+    location: location,
   };
 
-  return {
-    proposal,
-  };
+  return proposal;
 };
 
 const arrayProposal = [];
@@ -214,3 +210,7 @@ for (let index = 0; index <= 9; index++) {
   tenProposal[index] = createProposal();
   tenProposal.push[tenProposal[index]];
 }
+
+const OFFER = arrayProposal[0];
+
+export {OFFER};
