@@ -48,7 +48,7 @@ const createAuthor = () => {
 
   //Создаём объект Author в соответствии с заданием
   const author = {
-    avatar: `img/avatars/${userNumber}.png`,
+    avatar: `img/avatars/user${userNumber}.png`,
   };
   return {
     author,
@@ -56,7 +56,6 @@ const createAuthor = () => {
 };
 
 // в консоль выскакивает объект с двумя свойствами, первое нормально, второе какое-то __proto__:Object, я его не делал. Спросить у наставника.
-
 
 const createFeatures = () => {
   //функция по созданию массива строк случайной длины из значений:
@@ -136,7 +135,7 @@ const createPhotos = () => {
 //Здесь мы создали массив из возможных типов жилья, потом написали фунцию, которая случайным образом
 //выбирает из этих типов один тип жилья, и потом выдали в консоль результат работы этой фунции
 
-const createOffer = () => {
+const createOffer = (location) => {
 
   const priceNumber = getRandomInteger(1, 1000000);
   const roomsNumber = getRandomInteger(1, 20);
@@ -146,7 +145,7 @@ const createOffer = () => {
 
   return {
     title: 'Предлагаем вам отличное жильё',
-    address: 'location.x, location.y',
+    address: `${location.lat}, ${location.lng}`,
     price: priceNumber,
     type: getRandomArrayElement(TYPES),
     rooms: roomsNumber,
@@ -186,15 +185,14 @@ const createLocation = () => {
 //Он состоит из трёх объектов, которые мы уже создали ранее.
 
 const createProposal = () => {
+  const location = createLocation();
   const proposal = {
     author: createAuthor(),
-    offer: createOffer(),
-    location: createLocation(),
+    offer: createOffer(location),
+    location: location,
   };
 
-  return {
-    proposal,
-  };
+  return proposal;
 };
 
 const arrayProposal = [];
@@ -215,321 +213,182 @@ for (let index = 0; index <= 9; index++) {
   tenProposal.push[tenProposal[index]];
 }
 
-//Достаю из шаблона его содержимое
+const OFFER = arrayProposal[0];
+//createOffer({lat:'232323', lng:'232323'});
 
+
+//Достаю из шаблона его содержимое
 const templateFragment = document.querySelector('#card').content;
 
-//присваиваю содержимое тега c классом popup__title переменной template
-const template = templateFragment.querySelector('.popup__title');
+//клонирую всё содержимое шаблона.
+const element = templateFragment.cloneNode(true);
 
-//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
+//далее по заданию заполнить шаблон своими данными
 
-const fragment = document.createDocumentFragment();
+//Выполняю первую подзадачу задания № 2
+//element Это единственнный разумно доступный дом элемент у меня сейчас
 
-//клонирую элемент с классом popop__title со всеми "внутренностями"
-const element = template.cloneNode(true);
+if (OFFER.offer.title === undefined) {
+  document.querySelector('.popup__title').classList.add ('hidden');
+}
 
-//вызываю функцию, чтобы она дала нам все значения для всех нужных строк
-//предложения и вывожу посмотреть что эта функция выдала
-const OFFER = createOffer();
+element.querySelector('.popup__title').textContent = OFFER.offer.title;
 
-//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
-element.textContent = OFFER.title;
+//Выполняю вторую подзадачу задания № 2
 
-//складываю созданный элемент в коробочку
+if (OFFER.offer.address === undefined) {
+  document.querySelector('.popup__address').classList.add ('hidden');
+}
 
-fragment.appendChild(element);
+element.querySelector('.popup__text--address').textContent = OFFER.offer.address;
 
-//всё работает, задача
-//"Выведите заголовок объявления offer.title в заголовок .popup__title
-//<h3 class="popup__title">Предлагаем вам отличное жильё</h3>
-//полностью решена
+//Выполняю третью подзадачу задания № 2
+//Выведите цену offer.price в блок .popup__text--price строкой вида
+//{{offer.price}} ₽/ночь. Например, «5200 ₽/ночь».
 
-/*
+if (OFFER.offer.price === undefined) {
+  document.querySelector('.popup__price').classList.add ('hidden');
+}
 
-const el = document.getElementById('title');
-el.placeholder = `${OFFER.title}`;
+element.querySelector('.popup__text--price').textContent = `${OFFER.offer.price} ₽/ночь`;
 
-//Всё заработало, на странице отрисовалась фраза
-// Предлагаем вам отличное жильё
-
-//Следующее задание:
-//нужно ввести адрес offer.address в блок .popup__text--address
-
-//присваиваю содержимое тега c классом popup__text--address переменной template
-const template1 = templateFragment.querySelector('.popup__text--address');
-console.log(template1);
-
-//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
-const fragment1 = document.createDocumentFragment();
-console.log(fragment1);
-
-//клонирую элемент с классом popop__title со всеми "внутренностями"
-const element1 = template1.cloneNode(true);
-
-//функцию мы уже вызывали один раз, достаточно
-
-//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
-element1.textContent = OFFER.address;
-console.log(OFFER.address);
-
-//складываю созданный элемент в коробочку
-
-fragment1.appendChild(element1);
-console.log(element1);
-
-//всё работает, мы получили тег
-//<h3 class="popup__address">Предлагаем вам отличное жильё</h3>
-//как его дальше использовать, куда вставить эту коробочку
-
-const el1 = document.getElementById('address');
-el1.placeholder = `${OFFER.address}`;
-
-//Задание 2 успешно выполнено. Всё ОК.
-//На странице рисуется location.x, location.y
-
-//Задание 3 Выведите цену offer.price в блок .popup__text--price
-//строкой вида {{offer.price}} ₽/ночь. Например, «5200 ₽/ночь».
-
-//присваиваю содержимое тега c классом popup__text--price переменной template
-const template2 = templateFragment.querySelector('.popup__text--price');
-console.log(template2);
-
-//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
-const fragment2 = document.createDocumentFragment();
-console.log(fragment2);
-
-//клонирую элемент с классом popop__title со всеми "внутренностями"
-const element2 = template2.cloneNode(true);
-
-//функцию мы уже вызывали один раз, достаточно
-
-//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__title
-element2.textContent = `${OFFER.price} + <span> ₽/ночь </span>`;
-console.log(OFFER.price);
-
-//складываю созданный элемент в коробочку
-
-fragment2.appendChild(element2);
-console.log(element2);
-
-//всё работает, мы получили тег
-//<h3 class="popup__address">Предлагаем вам отличное жильё</h3>
-//как его дальше использовать, куда вставить эту коробочку
-
-const el2 = document.getElementById('price');
-el2.placeholder = `${OFFER.price}`;
-
-//задание 3 успешно выполнено, применён опасный код innerHTML
-
-//Задание 4
-//В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
+//Выполняю четвёртую подзадачу задачи № 2
+////В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
 // Квартира для flat
 // Бунгало для bungalow
 // Дом для house
 // Дворец для palace
 // Отель для hotel
-
-//присваиваю содержимое тега c классом popup__type переменной template
-const template3 = templateFragment.querySelector('.popup__type');
-console.log(template3);
-
-//создаю так называемую коробочку, потом туда положу готовый ДОМ-элемент (он же ДОМ -узел)
-const fragment3 = document.createDocumentFragment();
-console.log(fragment3);
-
-//клонирую элемент с классом popop__title со всеми "внутренностями"
-const element3 = template3.cloneNode(true);
-console.log(element3);
-//функцию мы уже вызывали один раз, достаточно
-
-//2. передаю новое значание заголовка в текстовое содержимое тега  с классом popup__type
-element3.textContent = OFFER.type;
-console.log(OFFER.type);
 
 // Занимаемся переводом тивов жилья с английского на русский язык
 
-if (element3.textContent === 'bungalow') {
-  element3.textContent = 'Бунгало';
-} else {
-  if (element3.textContent === 'house') {
-    element3.textContent = 'Дом';
-  } else {
-    if (element3.textContent === 'palace') {
-      element3.textContent = 'Дворец';
-    } else {
-      if (element3.textContent === 'flat') {
-        element3.textContent = 'Квартира';
-      } else {
-        if (element3.textContent === 'hotel') {
-          element3.textContent = 'Отель';
-        }
-      }
-    }
-  }
+switch (OFFER.offer.type) {
+  case 'bungalow':
+    OFFER.offer.type = 'Бунгало';
+    break;
+  case 'house':
+    OFFER.offer.type = 'Дом';
+    break;
+  case 'palace':
+    OFFER.offer.type = 'Дворец';
+    break;
+  case 'flat':
+    OFFER.offer.type = 'Квартира';
+    break;
+  case 'hotel':
+    OFFER.offer.type = 'Отель';
+    break;
 }
 
-console.log(element3.textContent);
-
-//складываю созданный элемент в коробочку
-
-fragment3.appendChild(element3);
-console.log(element3);
-
-//всё работает, мы получили тег
-//вставляем коробочку в тег, чтобы отрисовалось
-//не получается, на странице остаётся старое значение "квартира"
-
-const el3 = document.getElementById('type');
-el3.placeholder = OFFER.type;
-
-console.log(el3.placeholder);
-
-// присваиваю значение тега p c классом popup__text--type
-//переменной popupType
-
-const popupType = .querySelector('.popup__type');
-console.log(popupType);
-
-//Присваиваю это новое значение тегу p c классом popup_type
-
-popupType.textContent = OFFER.type;
-
-console.log(popupType.textContent);
-/*
-//Задание 4
-//В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
-// Квартира для flat
-// Бунгало для bungalow
-// Дом для house
-// Дворец для palace
-// Отель для hotel
-
-/*
-
-//0. Смотрю, какое новое предложение выдала функция
-//Выдаёт только одно значение
-
-// 1.присваиваю значение тега p c классом popup__text--type
-//переменной popupType
-
-const popupType = element.querySelector('.popup__type');
-
-//2. Вывожу текстовое содержимое этого тега в консоль
-
-//3. Присваиваю это новое значение тегу p c классом popup_type
-
-popupType.textContent = OFFER.type;
-
-//4. Занимаемся переводом тивов жилья с английского на русский язык
-
-if (popupType.textContent === 'bungalow') {
-  popupType.textContent = 'Бунгало';
-} else {
-  if (popupType.textContent === 'house') {
-    popupType.textContent = 'Дом';
-  } else {
-    if (popupType.textContent === 'palace') {
-      popupType.textContent = 'Дворец';
-    } else {
-      if (popupType.textContent === 'flat') {
-        popupType.textContent = 'Квартира';
-      } else {
-        if (popupType.textContent === 'hotel') {
-          popupType.textContent = 'Отель';
-        }
-      }
-    }
-  }
+if (OFFER.offer.type === undefined) {
+  document.querySelector('.popup__type').classList.add ('hidden');
 }
 
-//Задача № 4 успешно решена, всё работает, переводит
-//Возможно, алгоритм не очень эффективный, но работает
+element.querySelector('.popup__type').textContent = OFFER.offer.type;
 
-//Задача № 5
-// Выведите количество гостей и комнат offer.rooms и offer.guests
-// в блок .popup__text--capacity
-// строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей.
-// Например, «2 комнаты для 3 гостей.
+//четвёртая подзадача задания № 2 решена
 
-//0. Смотрю, какое новое предложение выдала функция
-//1. Присваиваю значение переменной popupCapasity
-// Это значание равно текстовому значению тега p с классом popup__text--capacity
+// Выполняю пятую подзадачу задания № 2
+//Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity
+//строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей.
+//Например, «2 комнаты для 3 гостей».
 
-const popupCapacity = element.querySelector('.popup__text--capacity');
+if (OFFER.offer.rooms === undefined) {
+  document.querySelector('.popup__text--capacity').classList.add ('hidden');
+}
 
-//2. Вывожу текстовое значение этой переменной в консоль.
+if (OFFER.offer.guests === undefined) {
+  document.querySelector('.popup__text--capacity').classList.add ('hidden');
+}
 
+element.querySelector('.popup__text--capacity').textContent = `${OFFER.offer.rooms} комнаты для ${OFFER.offer.guests} гостей`;
+// Пятая подзадача задания № 2 успешно решена
 
-//3. Создаю переменную offerRooms для хранения числа гостей
-// и присваиваю ей число гостей.
-const offerRooms = OFFER.rooms;
-
-//3. Создаю переменную offerGuests для хранения числа гостей
-// и присваиваю ей число гостей.
-const offerGuests = OFFER.guests;
-
-// 4. Создаю переменную для хранения фразы "N комнат для M гостей"
-//   и присваиваю ей значание этой фразы.
-// здесь бы сделать что-то с окончаниями на случай, если окончания неверны
-
-const capacity = `${offerRooms} + ' комнаты для ' + ${offerGuests} + ' гостей'`;
-
-// 5. Присваиваем это значание тегу p c классом  popup__text--capacity
-
-popupCapacity.textContent = capacity;
-
-//Задача № 5 успешно решена
-
-// Задача № 6
+//Шестая подзадача задания № 2
 // Время заезда и выезда offer.checkin и offer.checkout в блок
 // .popup__text--time строкой вида Заезд после {{offer.checkin}},
 // выезд до {{offer.checkout}}. Например, «Заезд после 14:00, выезд до 14:00»
 
-//0. Смотрю, какое новое предложение выдала функция
+if (OFFER.offer.checkin === undefined) {
+  document.querySelector('.popup__text--time').classList.add ('hidden');
+}
 
-//1. Присваиваю значение переменной popupCapasity
-// Это значание равно текстовому значению тега p с классом popup__text--capacity
+if (OFFER.offer.checkout === undefined) {
+  document.querySelector('.popup__text--time').classList.add ('hidden');
+}
 
-const popupTime = element.querySelector('.popup__text--time');
+element.querySelector('.popup__text--time').textContent = `Заезд до ${OFFER.offer.checkin} выезд после ${OFFER.offer.checkout}`;
 
-//2. Вывожу текстовое значение этой переменной в консоль.
+//Седьмая подзадача задания № 2
+//В список .popup__features выведите все доступные удобства в объявлении.
 
-//3. Создаю переменную offerRooms для хранения числа гостей
-// и присваиваю ей число гостей.
-const offerCheckin = OFFER.checkin;
+//Нашёл элемент, содержащий список и поместил его в переменную list
 
-//3. Создаю переменную offerGuests для хранения числа гостей
-// и присваиваю ей число гостей.
-const offerCheckout = OFFER.checkout;
+const list = element.querySelector('.popup__features');
 
-// 4. Создаю переменную для хранения фразы "N комнат для M гостей"
-//   и присваиваю ей значание этой фразы.
-// здесь бы сделать что-то с окончаниями на случай, если окончания неверны
+//сохраняю в переменную ссылку на первую фичу, которая в шаблоне
 
-const popupNewTime = `'Заезд до ' + ${offerCheckin} + ', выезд после ' + ${offerCheckout}`;
+const featureNew = element.querySelector('.popup__feature');
 
-// 5. Присваиваем это значание тегу p c классом  popup__text--capacity
+//Очищаю список
 
-popupTime.textContent = popupNewTime;
+list.innerHTML = '';
 
-//Задача № 6 успешно решена
+for (let index = 0; index < OFFER.offer.features.length; index++) {
+  const dupNode = featureNew.cloneNode(true);
+  const featureNewIndex = OFFER.offer.features[index];
+  dupNode.className = `popup__feature popup__feature--${featureNewIndex}`;
+  list.appendChild(dupNode);
+}
 
-//Задача №8
-//В блок .popup__description выведите описание объекта
-// недвижимости offer.description.
+//Седьмая задача задания № 2 успешно решена, выводит правильный список.
 
-// 0. Смотрим, какое значение даёт функция.
+//Восьмая подзадача задания № 2
+//В блок .popup__description
+//выведите описание объекта недвижимости offer.description.
 
-//1. Создаю перемееную popupDescription и присваиваю значение тега p
-//c классом popup__description этой переменной
-const popupDescription = element.querySelector('.popup__description');
+if (OFFER.offer.description === undefined) {
+  document.querySelector('.popup__description').classList.add ('hidden');
+}
 
-//2. Вывожу текстовое значение этой переменной в консоль.
+element.querySelector('.popup__description').textContent = OFFER.offer.description;
 
-//3. Передаю новое значение описания в текстовое содержимое тега p
-// и вывожу в консоль, чтобы посмотреть на новый адрес
-popupDescription.textContent = OFFER.description;
+//Девятая подзадача задания № 2
+//В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos
+//должна записываться как атрибут src соответствующего изображения.
 
-//Задача № 8 успешно решена
-*/
+//Нашёл элемент, содержащий список и поместил его в переменную listPhotos
+
+const listPhotos = element.querySelector('.popup__photos');
+
+//сохраняю в переменную ссылку на первую фотку, которая в шаблоне
+
+const photoNew = element.querySelector('.popup__photo');
+//Очищаю список
+
+listPhotos.innerHTML = '';
+
+for (let index = 0; index < OFFER.offer.photos.length; index++) {
+  const dupNodePhotos = photoNew.cloneNode(true);
+  const photoNewIndex = OFFER.offer.photos[index];
+  dupNodePhotos.src = `${photoNewIndex}`;
+  listPhotos.appendChild(dupNodePhotos);
+}
+
+//Десятая подзадача задания № 2
+//Замените значение атрибута src у аватарки пользователя
+// .popup__avatar на значение поля author.avatar.
+
+const authorCreate = createAuthor();
+
+element.querySelector('.popup__avatar').src = authorCreate.author.avatar;
+
+//Задача успешно решена
+
+//находит по селектору домэлемент и вставляет туда содержимое шаблона (тейплейта)
+document.querySelector('#map-canvas').appendChild(element);
+
+//Последнее требование в задаче №2
+//Предусмотрите ситуацию, когда данных для заполнения не хватает.
+//Например, отсутствует описание. В этом случае соответствующий блок
+// в карточке скрывается.
