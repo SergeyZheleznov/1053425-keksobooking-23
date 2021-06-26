@@ -20,18 +20,22 @@
 const selectRooms = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
 
-selectRooms.addEventListener('change', () => {
-  if (selectRooms.value === '1') {
+const listenerRoomsCapacity = () => {
+  if (selectRooms.value === '1' && selectCapacity.value !== '1') {
     selectCapacity.setCustomValidity('Одна комната только для одного гостя');
-  } else if (selectRooms.value === '2') {
+  } else if (selectRooms.value === '2' && selectCapacity.value !== '1' && selectCapacity.value !== '2') {
     selectCapacity.setCustomValidity('Две комнаты только для одного гостя или для двух гостей');
-  } else if (selectRooms.value === '3') {
+  } else if (selectRooms.value === '3' && selectCapacity.value !== '1' && selectCapacity.value !== '2' && selectCapacity.value !== '3') {
     selectCapacity.setCustomValidity('Две комнаты только для одного гостя, для двух гостей или трёх гостей');
-  } else if (selectRooms.value === '100') {
+  } else if (selectRooms.value === '100' && selectCapacity.value !== '0') {
     selectCapacity.setCustomValidity('не для гостей');
   } else {
     selectCapacity.setCustomValidity('');
   }
 
   selectCapacity.reportValidity();
-});
+};
+
+selectRooms.addEventListener('change', listenerRoomsCapacity);
+
+selectCapacity.addEventListener('change', listenerRoomsCapacity);
