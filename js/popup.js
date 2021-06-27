@@ -1,4 +1,4 @@
-import {OFFER} from './util.js';
+/*import {OFFER} from './util.js';
 
 //Достаю из шаблона его содержимое
 const templateFragment = document.querySelector('#card').content;
@@ -173,3 +173,4 @@ document.querySelector('#map-canvas').appendChild(element);
 //Предусмотрите ситуацию, когда данных для заполнения не хватает.
 //Например, отсутствует описание. В этом случае соответствующий блок
 // в карточке скрывается.
+*/
