@@ -211,6 +211,6 @@ for (let index = 0; index <= 9; index++) {
   tenProposal.push[tenProposal[index]];
 }
 
-const OFFER = arrayProposal[0];
+//const OFFER = arrayProposal[0];
 
-export {OFFER};
+export {createProposal};
