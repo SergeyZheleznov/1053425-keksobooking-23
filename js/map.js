@@ -37,11 +37,7 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-//Начал делать так, чтобы координаты главной точки передвижения были доступны
-//и выдавались с 5 знаками после запятой, как по заданию.
-//Не разобрался, как получить доступ снаружи.
-//чтобы вывести в консоль координаты главной точки после передвижания
-// нужно внутри написать console.log(addressLatLng)
+const addressInput = document.querySelector ('#address');
 
 mainPinMarker.on('moveend', (evt) => {
   const addressLatLng = evt.target.getLatLng();
@@ -50,7 +46,7 @@ mainPinMarker.on('moveend', (evt) => {
   const longitude = addressLatLng.lng;
   const lng = +longitude.toFixed(5);
 
-  return (lat,lng);
+  addressInput.value = `${lat}, ${lng}`;
 });
 
 const resetSubmitButton = () => {
