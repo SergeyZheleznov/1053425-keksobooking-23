@@ -38,7 +38,7 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-const addressInput = document.querySelector ('#address');
+const addressInput = document.querySelector('#address');
 
 mainPinMarker.on('move', (evt) => {
   const addressLatLng = evt.target.getLatLng();
@@ -66,7 +66,7 @@ resetButton.addEventListener('click', resetSubmitButton);
 submitButton.addEventListener('click', resetSubmitButton);
 
 //mainPinMarker.remove();
-
+/*
 const points = [
   {
     title: 'islandMiddle',
@@ -89,32 +89,36 @@ const points = [
     lng: 139.79673,
   },
 ];
+*/
+const renderOffer = (points) => {
+  points.forEach((point) => {
+    const { lat, lng } = point.location;
 
-points.forEach((point) => {
-  const { lat, lng } = point;
+    const icon = L.icon({
+      iconUrl: ['img/pin.svg'],
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  const icon = L.icon({
-    iconUrl: ['img/pin.svg'],
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      createCustomPopup(),
+    const marker = L.marker(
       {
-        keepInView: true,
+        lat,
+        lng,
+      },
+      {
+        icon,
       },
     );
-});
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createCustomPopup(point),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+export {renderOffer};
