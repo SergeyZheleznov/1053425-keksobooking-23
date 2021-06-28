@@ -53,3 +53,55 @@ const addressFormInput = document.querySelector('#address');
 const latCenterTokio = 35.66589;
 const lngCenterTokio = 139.74303;
 addressFormInput.placeholder = `${latCenterTokio}, ${lngCenterTokio}`;
+
+const adFormNotActive = () => {
+  const adForm = document.querySelector('.ad-form');
+  adForm.classList.add('ad-form--disabled');
+
+  const adFormHeader = document.querySelector('.ad-form-header');
+  adFormHeader.disabled = true;
+
+  const adFormElements = document.querySelectorAll('.ad-form__element');
+  adFormElements.forEach((el) => {
+    el.disabled = true;
+  });
+
+  const formMapFilters = document.querySelector('.map__filters');
+  formMapFilters.classList.add('map__filters--disabled');
+
+  const mapFilter = document.querySelectorAll('.map__filter');
+  mapFilter.forEach((el) => {
+    el.disabled = true;
+  });
+
+  const mapFeatures = document.querySelector('.map__features');
+  mapFeatures.disabled = true;
+};
+
+adFormNotActive();
+
+const adFormActive = () => {
+  const adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled');
+
+  const adFormHeader = document.querySelector('.ad-form-header');
+  adFormHeader.disabled = false;
+
+  const adFormElements = document.querySelectorAll('.ad-form__element');
+  adFormElements.forEach((el) => {
+    el.disabled = false;
+  });
+
+  const formMapFilters = document.querySelector('.map__filters');
+  formMapFilters.classList.remove('map__filters--disabled');
+
+  const mapFilter = document.querySelectorAll('.map__filter');
+  mapFilter.forEach((el) => {
+    el.disabled = false;
+  });
+
+  const mapFeatures = document.querySelector('.map__features');
+  mapFeatures.disabled = false;
+};
+
+adFormActive();
