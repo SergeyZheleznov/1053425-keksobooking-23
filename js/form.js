@@ -39,3 +39,17 @@ const listenerRoomsCapacity = () => {
 selectRooms.addEventListener('change', listenerRoomsCapacity);
 
 selectCapacity.addEventListener('change', listenerRoomsCapacity);
+
+
+//Заполняем поле адреса карты на форме.
+//В домашке сказано, что Поле адреса должно быть заполнено всегда,
+//в том числе сразу после активации страницы.
+//По умолчанию используются координаты центра Токио. Конец цитаты
+//Мне кажется, что по умолчанию это значение поля placeholder
+//Поэтому кладу в placeholder значения координат центра Токио.
+
+const addressFormInput = document.querySelector('#address');
+
+const latCenterTokio = 35.66589;
+const lngCenterTokio = 139.74303;
+addressFormInput.placeholder = `${latCenterTokio}, ${lngCenterTokio}`;

@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -19,9 +20,8 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas" style="width: 1200px; height: 480px;"></div>
 
-      <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
         <form action="#" class="map__filters" autocomplete="off">
           <select name="housing-type" id="housing-type" class="map__filter">
@@ -90,8 +90,8 @@
           <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required minlength="30" maxlength="100">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <label class="ad-form__label ad-form__label--address" for="address">Адрес (координаты)</label>
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -191,7 +191,7 @@
   </footer>
 
   <!-- Карточка объявления -->
-  <template id="card">
+    <template id="card">
     <article class="popup">
       <img src="img/avatars/user01.png" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
       <h3 class="popup__title">Уютное гнездышко для молодоженов</h3>
@@ -231,5 +231,6 @@
   </template>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
   <script src="./js/main.js" defer type="module"></script>
+  <script src="./leaflet/leaflet.js"></script>
 </body>
 </html>

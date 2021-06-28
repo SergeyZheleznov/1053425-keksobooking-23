@@ -1,175 +1,103 @@
-import {OFFER} from './util.js';
+const createCustomPopup = (point) => {
+  const templateTemplate = document.querySelector('#card').content.querySelector('.popup');
+  const popupElement = templateTemplate.cloneNode(true);
+  //Выполняю первую подзадачу задания № 2
+  if (point.offer.title === undefined) {
+    document.querySelector('.popup__title').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__title').textContent = point.offer.title;
 
-//Достаю из шаблона его содержимое
-const templateFragment = document.querySelector('#card').content;
+  //Выполняю вторую подзадачу задания № 2
+  if (point.offer.address === undefined) {
+    document.querySelector('.popup__address').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__text--address').textContent = point.offer.address;
 
-//клонирую всё содержимое шаблона.
-const element = templateFragment.cloneNode(true);
+  //Выполняю третью подзадачу задания № 2
+  if (point.offer.price === undefined) {
+    document.querySelector('.popup__price').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
 
-//далее по заданию заполнить шаблон своими данными
+  //Выполняю четвёртую подзадачу задачи № 2
+  switch (point.offer.type) {
+    case 'bungalow':
+      point.offer.type = 'Бунгало';
+      break;
+    case 'house':
+      point.offer.type = 'Дом';
+      break;
+    case 'palace':
+      point.offer.type = 'Дворец';
+      break;
+    case 'flat':
+      point.offer.type = 'Квартира';
+      break;
+    case 'hotel':
+      point.offer.type = 'Отель';
+      break;
+  }
 
-//Выполняю первую подзадачу задания № 2
-//element Это единственнный разумно доступный дом элемент у меня сейчас
+  if (point.offer.type === undefined) {
+    document.querySelector('.popup__type').classList.add('hidden');
+  }
 
-if (OFFER.offer.title === undefined) {
-  document.querySelector('.popup__title').classList.add ('hidden');
-}
+  popupElement.querySelector('.popup__type').textContent = point.offer.type;
 
-element.querySelector('.popup__title').textContent = OFFER.offer.title;
+  // Выполняю пятую подзадачу задания № 2
+  if (point.offer.rooms === undefined) {
+    document.querySelector('.popup__text--capacity').classList.add ('hidden');
+  }
 
-//Выполняю вторую подзадачу задания № 2
+  if (point.offer.guests === undefined) {
+    document.querySelector('.popup__text--capacity').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__text--capacity').textContent = `${point.offer.rooms} комнаты для ${point.offer.guests} гостей`;
 
-if (OFFER.offer.address === undefined) {
-  document.querySelector('.popup__address').classList.add ('hidden');
-}
+  //Шестая подзадача задания № 2
+  if (point.offer.checkin === undefined) {
+    document.querySelector('.popup__text--time').classList.add ('hidden');
+  }
 
-element.querySelector('.popup__text--address').textContent = OFFER.offer.address;
+  if (point.offer.checkout === undefined) {
+    document.querySelector('.popup__text--time').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__text--time').textContent = `Заезд до ${point.offer.checkin} выезд после ${point.offer.checkout}`;
 
-//Выполняю третью подзадачу задания № 2
-//Выведите цену offer.price в блок .popup__text--price строкой вида
-//{{offer.price}} ₽/ночь. Например, «5200 ₽/ночь».
+  //Седьмая подзадача задания № 2
+  const list = popupElement.querySelector('.popup__features');
+  const featureNew = popupElement.querySelector('.popup__feature');
+  list.innerHTML = '';
 
-if (OFFER.offer.price === undefined) {
-  document.querySelector('.popup__price').classList.add ('hidden');
-}
+  for (let index = 0; index < point.offer.features.length; index++) {
+    const dupNode = featureNew.cloneNode(true);
+    const featureNewIndex = point.offer.features[index];
+    dupNode.className = `popup__feature popup__feature--${featureNewIndex}`;
+    list.appendChild(dupNode);
+  }
 
-element.querySelector('.popup__text--price').textContent = `${OFFER.offer.price} ₽/ночь`;
+  //Восьмая подзадача задания № 2
+  if (point.offer.description === undefined) {
+    document.querySelector('.popup__description').classList.add ('hidden');
+  }
+  popupElement.querySelector('.popup__description').textContent = point.offer.description;
 
-//Выполняю четвёртую подзадачу задачи № 2
-////В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
-// Квартира для flat
-// Бунгало для bungalow
-// Дом для house
-// Дворец для palace
-// Отель для hotel
+  //Девятая подзадача задания № 2
+  const listPhotos = popupElement.querySelector('.popup__photos');
+  const photoNew = popupElement.querySelector('.popup__photo');
+  listPhotos.innerHTML = '';
 
-// Занимаемся переводом тивов жилья с английского на русский язык
+  for (let index = 0; index < point.offer.photos.length; index++) {
+    const dupNodePhotos = photoNew.cloneNode(true);
+    const photoNewIndex = point.offer.photos[index];
+    dupNodePhotos.src = `${photoNewIndex}`;
+    listPhotos.appendChild(dupNodePhotos);
+  }
 
-switch (OFFER.offer.type) {
-  case 'bungalow':
-    OFFER.offer.type = 'Бунгало';
-    break;
-  case 'house':
-    OFFER.offer.type = 'Дом';
-    break;
-  case 'palace':
-    OFFER.offer.type = 'Дворец';
-    break;
-  case 'flat':
-    OFFER.offer.type = 'Квартира';
-    break;
-  case 'hotel':
-    OFFER.offer.type = 'Отель';
-    break;
-}
+  //Десятая подзадача задания № 2
+  popupElement.querySelector('.popup__avatar').src = point.author.avatar;
 
-if (OFFER.offer.type === undefined) {
-  document.querySelector('.popup__type').classList.add ('hidden');
-}
+  return popupElement;
+};
 
-element.querySelector('.popup__type').textContent = OFFER.offer.type;
-
-//четвёртая подзадача задания № 2 решена
-
-// Выполняю пятую подзадачу задания № 2
-//Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity
-//строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей.
-//Например, «2 комнаты для 3 гостей».
-
-if (OFFER.offer.rooms === undefined) {
-  document.querySelector('.popup__text--capacity').classList.add ('hidden');
-}
-
-if (OFFER.offer.guests === undefined) {
-  document.querySelector('.popup__text--capacity').classList.add ('hidden');
-}
-
-element.querySelector('.popup__text--capacity').textContent = `${OFFER.offer.rooms} комнаты для ${OFFER.offer.guests} гостей`;
-// Пятая подзадача задания № 2 успешно решена
-
-//Шестая подзадача задания № 2
-// Время заезда и выезда offer.checkin и offer.checkout в блок
-// .popup__text--time строкой вида Заезд после {{offer.checkin}},
-// выезд до {{offer.checkout}}. Например, «Заезд после 14:00, выезд до 14:00»
-
-if (OFFER.offer.checkin === undefined) {
-  document.querySelector('.popup__text--time').classList.add ('hidden');
-}
-
-if (OFFER.offer.checkout === undefined) {
-  document.querySelector('.popup__text--time').classList.add ('hidden');
-}
-
-element.querySelector('.popup__text--time').textContent = `Заезд до ${OFFER.offer.checkin} выезд после ${OFFER.offer.checkout}`;
-
-//Седьмая подзадача задания № 2
-//В список .popup__features выведите все доступные удобства в объявлении.
-
-//Нашёл элемент, содержащий список и поместил его в переменную list
-
-const list = element.querySelector('.popup__features');
-
-//сохраняю в переменную ссылку на первую фичу, которая в шаблоне
-
-const featureNew = element.querySelector('.popup__feature');
-
-//Очищаю список
-
-list.innerHTML = '';
-
-for (let index = 0; index < OFFER.offer.features.length; index++) {
-  const dupNode = featureNew.cloneNode(true);
-  const featureNewIndex = OFFER.offer.features[index];
-  dupNode.className = `popup__feature popup__feature--${featureNewIndex}`;
-  list.appendChild(dupNode);
-}
-
-//Седьмая задача задания № 2 успешно решена, выводит правильный список.
-
-//Восьмая подзадача задания № 2
-//В блок .popup__description
-//выведите описание объекта недвижимости offer.description.
-
-if (OFFER.offer.description === undefined) {
-  document.querySelector('.popup__description').classList.add ('hidden');
-}
-
-element.querySelector('.popup__description').textContent = OFFER.offer.description;
-
-//Девятая подзадача задания № 2
-//В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos
-//должна записываться как атрибут src соответствующего изображения.
-
-//Нашёл элемент, содержащий список и поместил его в переменную listPhotos
-
-const listPhotos = element.querySelector('.popup__photos');
-
-//сохраняю в переменную ссылку на первую фотку, которая в шаблоне
-
-const photoNew = element.querySelector('.popup__photo');
-//Очищаю список
-
-listPhotos.innerHTML = '';
-
-for (let index = 0; index < OFFER.offer.photos.length; index++) {
-  const dupNodePhotos = photoNew.cloneNode(true);
-  const photoNewIndex = OFFER.offer.photos[index];
-  dupNodePhotos.src = `${photoNewIndex}`;
-  listPhotos.appendChild(dupNodePhotos);
-}
-
-//Десятая подзадача задания № 2
-//Замените значение атрибута src у аватарки пользователя
-// .popup__avatar на значение поля author.avatar.
-
-element.querySelector('.popup__avatar').src = OFFER.author.avatar;
-
-//Задача успешно решена
-
-//находит по селектору домэлемент и вставляет туда содержимое шаблона (тейплейта)
-document.querySelector('#map-canvas').appendChild(element);
-
-//Последнее требование в задаче №2
-//Предусмотрите ситуацию, когда данных для заполнения не хватает.
-//Например, отсутствует описание. В этом случае соответствующий блок
-// в карточке скрывается.
+export {createCustomPopup};
