@@ -112,32 +112,39 @@ makeFormАсtivated();
 //эта часть файла устанавливает минимальную цена на жильё
 
 const typeHome = document.querySelector('#type');
-const priceFormNight = document.querySelector ('#price');
+const priceFormNight = document.querySelector('#price');
 
 const listenPrice = () => {
-  if (typeHome.value === 'bungalow') {
-    priceFormNight.placeholder = 0;
-    priceFormNight.min = 0;
-    priceFormNight.setCustomValidity('Минимальное значение цены 0 руб за ночь');
-  } else if (typeHome.value === 'flat') {
-    priceFormNight.placeholder = 1000;
-    priceFormNight.min = 1000;
-    priceFormNight.setCustomValidity('Минимальное значение цены 1000 руб за ночь');
-  } else if (typeHome.value === 'hotel') {
-    priceFormNight.placeholder = 3000;
-    priceFormNight.min = 3000;
-    priceFormNight.setCustomValidity('Минимальное значение цены 3000 руб за ночь');
-  } else if (typeHome.value === 'house') {
-    priceFormNight.placeholder = 5000;
-    priceFormNight.min = 5000;
-    priceFormNight.setCustomValidity('Минимальное значение цены 5000 руб за ночь');
-  } else if (typeHome.value === 'palace') {
-    priceFormNight.placeholder = 10000;
-    priceFormNight.min = 10000;
-    priceFormNight.setCustomValidity('Минимальное значение цены 10000 руб за ночь');
-  }
+  switch (typeHome.value) {
+    case 'bungalow':
+      priceFormNight.placeholder = 0;
+      priceFormNight.min = 0;
+      priceFormNight.setCustomValidity('Минимальное значение цены 0 руб за ночь');
+      break;
+    case 'flat':
+      priceFormNight.placeholder = 1000;
+      priceFormNight.min = 1000;
+      priceFormNight.setCustomValidity('Минимальное значение цены 1000 руб за ночь');
+      break;
+    case 'hotel':
+      priceFormNight.placeholder = 3000;
+      priceFormNight.min = 3000;
+      priceFormNight.setCustomValidity('Минимальное значение цены 3000 руб за ночь');
+      break;
+    case 'house':
+      priceFormNight.placeholder = 5000;
+      priceFormNight.min = 5000;
+      priceFormNight.setCustomValidity('Минимальное значение цены 5000 руб за ночь');
+      break;
+    case 'palace':
+      priceFormNight.placeholder = 10000;
+      priceFormNight.min = 10000;
+      priceFormNight.setCustomValidity('Минимальное значение цены 10000 руб за ночь');
+      break;
 
-  priceFormNight.reportValidity();
+    default:
+      priceFormNight.reportValidity();
+  }
 };
 
 typeHome.addEventListener('change', listenPrice);
@@ -149,7 +156,7 @@ const selectTimeIn = document.querySelector('#timein');
 const selectTimeOut = document.querySelector('#timeout');
 
 const listenTimeIn = () => {
-  if(selectTimeIn.value === '12:00') {
+  if (selectTimeIn.value === '12:00') {
     selectTimeOut.value = '12:00';
   } else if (selectTimeIn.value === '13:00') {
     selectTimeOut.value = '13:00';
@@ -161,7 +168,7 @@ const listenTimeIn = () => {
 selectTimeIn.addEventListener('change', listenTimeIn);
 
 const listenTimeOut = () => {
-  if(selectTimeOut.value === '12:00') {
+  if (selectTimeOut.value === '12:00') {
     selectTimeIn.value = '12:00';
   } else if (selectTimeOut.value === '13:00') {
     selectTimeIn.value = '13:00';
