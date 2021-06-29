@@ -119,36 +119,28 @@ const listenPrice = () => {
     case 'bungalow':
       priceFormNight.placeholder = 0;
       priceFormNight.min = 0;
-      priceFormNight.setCustomValidity('Минимальное значение цены 0 руб за ночь');
       break;
     case 'flat':
       priceFormNight.placeholder = 1000;
       priceFormNight.min = 1000;
-      priceFormNight.setCustomValidity('Минимальное значение цены 1000 руб за ночь');
       break;
     case 'hotel':
       priceFormNight.placeholder = 3000;
       priceFormNight.min = 3000;
-      priceFormNight.setCustomValidity('Минимальное значение цены 3000 руб за ночь');
       break;
     case 'house':
       priceFormNight.placeholder = 5000;
       priceFormNight.min = 5000;
-      priceFormNight.setCustomValidity('Минимальное значение цены 5000 руб за ночь');
       break;
     case 'palace':
       priceFormNight.placeholder = 10000;
       priceFormNight.min = 10000;
-      priceFormNight.setCustomValidity('Минимальное значение цены 10000 руб за ночь');
       break;
-
-    default:
-      priceFormNight.reportValidity();
   }
 };
 
 typeHome.addEventListener('change', listenPrice);
-priceFormNight.addEventListener('change', listenPrice);
+listenPrice();
 
 //эта часть файла определяет связь времени заезда и времени выезда
 
