@@ -54,7 +54,7 @@ const latCenterTokio = 35.66589;
 const lngCenterTokio = 139.74303;
 addressFormInput.placeholder = `${latCenterTokio}, ${lngCenterTokio}`;
 
-const adFormNotActive = () => {
+const deactivateForm = () => {
   const adForm = document.querySelector('.ad-form');
   adForm.classList.add('ad-form--disabled');
 
@@ -78,9 +78,9 @@ const adFormNotActive = () => {
   mapFeatures.disabled = true;
 };
 
-adFormNotActive();
+deactivateForm();
 
-const adFormActive = () => {
+const makeFormАсtivated = () => {
   const adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
 
@@ -104,4 +104,4 @@ const adFormActive = () => {
   mapFeatures.disabled = false;
 };
 
-adFormActive();
+makeFormАсtivated();
