@@ -1028,3 +1028,17 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.module-error-server-request {
+  position: absolute;
+  top: 650px;
+  left: 380px;
+  display: block;
+  width: 400px;
+  height: 80px;
+  margin: 10px, auto;
+  padding: 10px 30px 10px 30px;
+  background-color:white;
+  font-size: 20px;
+  color: red;
+}

@@ -65,31 +65,6 @@ const resetSubmitButton = () => {
 resetButton.addEventListener('click', resetSubmitButton);
 submitButton.addEventListener('click', resetSubmitButton);
 
-//mainPinMarker.remove();
-/*
-const points = [
-  {
-    title: 'islandMiddle',
-    lat: 35.65032,
-    lng: 139.775447,
-  },
-  {
-    titlе: 'park',
-    lat: 35.65213,
-    lng: 139.72635,
-  },
-  {
-    titlе: 'flat',
-    lat: 35.64488,
-    lng: 139.73596,
-  },
-  {
-    title: 'house',
-    lat: 35.66775,
-    lng: 139.79673,
-  },
-];
-*/
 const renderOffer = (points) => {
   points.forEach((point) => {
     const { lat, lng } = point.location;
