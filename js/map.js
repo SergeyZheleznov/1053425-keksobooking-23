@@ -97,3 +97,4 @@ const renderOffer = (points) => {
 };
 
 export {renderOffer};
+export {mainPinMarker};

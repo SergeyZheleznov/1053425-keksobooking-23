@@ -2,20 +2,20 @@ const createCustomPopup = (point) => {
   const templateTemplate = document.querySelector('#card').content.querySelector('.popup');
   const popupElement = templateTemplate.cloneNode(true);
   //Выполняю первую подзадачу задания № 2
-  if (point.offer.title === undefined) {
-    document.querySelector('.popup__title').classList.add ('hidden');
+  if (!point.offer.title) {
+    popupElement.querySelector('.popup__title').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__title').textContent = point.offer.title;
 
   //Выполняю вторую подзадачу задания № 2
   if (point.offer.address === undefined) {
-    document.querySelector('.popup__address').classList.add ('hidden');
+    popupElement.querySelector('.popup__address').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__text--address').textContent = point.offer.address;
 
   //Выполняю третью подзадачу задания № 2
   if (point.offer.price === undefined) {
-    document.querySelector('.popup__price').classList.add ('hidden');
+    popupElement.querySelector('.popup__price').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
 
@@ -39,28 +39,28 @@ const createCustomPopup = (point) => {
   }
 
   if (point.offer.type === undefined) {
-    document.querySelector('.popup__type').classList.add('hidden');
+    popupElement.querySelector('.popup__type').classList.add('hidden');
   }
 
   popupElement.querySelector('.popup__type').textContent = point.offer.type;
 
   // Выполняю пятую подзадачу задания № 2
   if (point.offer.rooms === undefined) {
-    document.querySelector('.popup__text--capacity').classList.add ('hidden');
+    popupElement.querySelector('.popup__text--capacity').classList.add ('hidden');
   }
 
   if (point.offer.guests === undefined) {
-    document.querySelector('.popup__text--capacity').classList.add ('hidden');
+    popupElement.querySelector('.popup__text--capacity').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__text--capacity').textContent = `${point.offer.rooms} комнаты для ${point.offer.guests} гостей`;
 
   //Шестая подзадача задания № 2
   if (point.offer.checkin === undefined) {
-    document.querySelector('.popup__text--time').classList.add ('hidden');
+    popupElement.querySelector('.popup__text--time').classList.add ('hidden');
   }
 
   if (point.offer.checkout === undefined) {
-    document.querySelector('.popup__text--time').classList.add ('hidden');
+    popupElement.querySelector('.popup__text--time').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__text--time').textContent = `Заезд до ${point.offer.checkin} выезд после ${point.offer.checkout}`;
 
@@ -78,7 +78,7 @@ const createCustomPopup = (point) => {
 
   //Восьмая подзадача задания № 2
   if (point.offer.description === undefined) {
-    document.querySelector('.popup__description').classList.add ('hidden');
+    popupElement.querySelector('.popup__description').classList.add ('hidden');
   }
   popupElement.querySelector('.popup__description').textContent = point.offer.description;
 

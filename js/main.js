@@ -3,11 +3,10 @@ import './form.js';
 import './map.js';
 import './fetch.js';
 import { renderOffer } from './map.js';
+import { getData } from './fetch.js';
 
-import { createProposal } from './util.js';
-const OFFERS = [];
-for (let index = 0; index <= 9; index++) {
-  OFFERS[index] = createProposal();
-}
+const NUMBERS_OF_OFFERS = 3;
 
-renderOffer ( OFFERS);
+getData().then((response) => {
+  renderOffer(response.slice(0, NUMBERS_OF_OFFERS));
+});
