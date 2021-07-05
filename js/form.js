@@ -1,3 +1,6 @@
+import { sendData, showMessageSuccess, showMessageError } from './fetch.js';
+import { showAlert } from './util.js';
+import { mainPinMarker } from './map.js';
 // Задача
 
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
@@ -56,9 +59,10 @@ addressFormInput.placeholder = `${latCenterTokio}, ${lngCenterTokio}`;
 
 
 //Эта часть файла занимается деактивацией и активацей формы.
+const adForm = document.querySelector('.ad-form');
 
 const deactivateForm = () => {
-  const adForm = document.querySelector('.ad-form');
+
   adForm.classList.add('ad-form--disabled');
 
   const adFormHeader = document.querySelector('.ad-form-header');
@@ -84,7 +88,7 @@ const deactivateForm = () => {
 deactivateForm();
 
 const makeFormАсtivated = () => {
-  const adForm = document.querySelector('.ad-form');
+
   adForm.classList.remove('ad-form--disabled');
 
   const adFormHeader = document.querySelector('.ad-form-header');
@@ -170,3 +174,46 @@ const listenTimeOut = () => {
 };
 
 selectTimeOut.addEventListener('change', listenTimeOut);
+
+//Функция по пункту 2.5 ТЗ - возврат полей формы в первоначальное состояние
+// и прочее.
+// эту функцию не совсем понятно, как тестировать.
+//
+
+const mapFilters = document.querySelector('.map__filters');
+const latLngAddress = document.querySelector('#address');
+const resetForm = () => {
+  // очищаем форму
+  const mainForm = document.querySelector('.ad-form');
+  mainForm.reset();
+  //Очищаем фильтры
+  mapFilters.reset();
+  //метка адреса в исходное состояние
+  mainPinMarker.setLatLng({
+    lat: 35.66589,
+    lng: 139.74303,
+  });// ставим в поле адреса эти координаты метки
+  const lat = 35.66589;
+  const lng = 139.74303;
+  latLngAddress.textContent = `x = ${lat} y = ${lng}`;
+};
+
+//Навешиваем обработчик нажания кнопки на кнопку очистки формы.
+const resetFormButton = document.querySelector('.ad-form__reset');
+resetFormButton.addEventListener ('click', resetForm);
+
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  sendData(new FormData(adForm))
+    .then((response) => {
+      if (response.ok) {
+        showMessageSuccess();
+      } else {
+        showMessageError();
+      }
+      resetForm();
+    })
+    .catch(() => {
+      showAlert('2. Не удалось отправить форму. Попробуйте ещё раз');
+    });
+});
