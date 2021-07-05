@@ -1,6 +1,4 @@
 //const messageErrorRequest = document.querySelector('.module-error-server-request');
-import {showAlert} from './util.js';
-import  {mainPinMarker} from './map.js';
 const getData = () =>
   fetch(
     'https://23.javascript.pages.academy/keksobooking/data',
@@ -60,35 +58,24 @@ const showMessageError = () => {
 //фразы Форма отправлена хорошо! Статус ОК
 //Не знаю, как протестировать на неправильную отправку
 
-const sendData = () => {
-  const mainForm = document.querySelector('.ad-form');
+const sendData = (data) =>
+//  const mainForm = document.querySelector('.ad-form');
 
-  mainForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+//  mainForm.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
 
-    const formData = new FormData(evt.target);
+//    const formData = new FormData(evt.target);
 
-    fetch(
-      'https://23.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          showMessageSuccess();
-        } else {
-          showMessageError();
-        }
-      })
-      .catch(() => {
-        showAlert('2. Не удалось отправить форму. Попробуйте ещё раз');
-      });
-  });
-};
+  fetch(
+    'https://23.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body: data,
+    },
+  );
 
-sendData();
+
+//sendData();
 // функция отменяет действие кнопки отправки формы по умолчанию
 // и отправляет запрос к серверу
 // Запрос к серверу работает, можно тестировать
@@ -112,35 +99,4 @@ sendFormButton.onclick = function (event) {
 //значение поля адреса корректируется соответственно исходному
 //положению метки.
 
-//Функция по пункту 2.5 ТЗ - возврат полей формы в первоначальное состояние
-// и прочее.
-// эту функцию не совсем понятно, как тестировать.
-//
-
-const mapFilters = document.querySelector('.map__filters');
-const latLngAddress = document.querySelector('#address');
-const resetFunction = () => {
-  // очищаем форму
-  const mainForm = document.querySelector('.ad-form');
-  mainForm.reset;
-  //Очищаем фильтры
-  mapFilters.reset;
-  //метка адреса в исходное состояние
-  //Эта часть функции не работает
-
-  mainPinMarker.setLatLng({
-    lat: 35.66589,
-    lng: 139.74303,
-  });// ставим в поле адреса эти координаты метки
-  const lat = 35.66589;
-  const lng = 139.74303;
-  latLngAddress.textContent = `x = ${lat} y = ${lng}`;
-};
-
-//Навешиваем обработчик нажания кнопки на кнопку очистки формы.
-const resetFormButton = document.querySelector('.ad-form__reset');
-resetFormButton.onclick = resetFunction();
-
-resetFunction();
-
-export{getData};
+export { getData, sendData, showMessageSuccess, showMessageError };
