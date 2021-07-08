@@ -2,11 +2,22 @@ import './popup.js';
 import './form.js';
 import './map.js';
 import './fetch.js';
-import { renderOffer } from './map.js';
+import { renderOffers } from './map.js';
 import { getData } from './fetch.js';
+import { filterOffers } from './filter.js';
+import { cleanMap } from './map.js';
+import { debounce } from './debounce.js';
 
-const NUMBERS_OF_OFFERS = 15;
+const RERENDER_DELAY = 500;
+
+const mapFilter = document.querySelector('.map__filters');
 
 getData().then((response) => {
-  renderOffer(response.slice(0, NUMBERS_OF_OFFERS));
+
+  const offers = filterOffers(response);
+  renderOffers(offers);
+  mapFilter.addEventListener('change', debounce (() => {
+    cleanMap();
+    renderOffers(filterOffers(response));
+  }, RERENDER_DELAY));
 });
