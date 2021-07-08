@@ -1,6 +1,10 @@
 import { sendData, showMessageSuccess, showMessageError } from './fetch.js';
 import { showAlert } from './util.js';
 import { mainPinMarker } from './map.js';
+
+const LATITUDE_CENTER_TOKIO = 35.66589;
+const LONGITUDE_CENTER_TOKIO = 139.74303;
+
 // Задача
 
 // Поле «Количество комнат» синхронизировано с полем «Количество мест»
@@ -53,9 +57,7 @@ selectCapacity.addEventListener('change', listenerRoomsCapacity);
 
 const addressFormInput = document.querySelector('#address');
 
-const latCenterTokio = 35.66589;
-const lngCenterTokio = 139.74303;
-addressFormInput.placeholder = `${latCenterTokio}, ${lngCenterTokio}`;
+addressFormInput.placeholder = `${LATITUDE_CENTER_TOKIO}, ${LONGITUDE_CENTER_TOKIO}`;
 
 
 //Эта часть файла занимается деактивацией и активацей формы.
@@ -69,16 +71,16 @@ const deactivateForm = () => {
   adFormHeader.disabled = true;
 
   const adFormElements = document.querySelectorAll('.ad-form__element');
-  adFormElements.forEach((el) => {
-    el.disabled = true;
+  adFormElements.forEach((elementLocal) => {
+    elementLocal.disabled = true;
   });
 
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.add('map__filters--disabled');
 
   const mapFilter = document.querySelectorAll('.map__filter');
-  mapFilter.forEach((el) => {
-    el.disabled = true;
+  mapFilter.forEach((elementLocal) => {
+    elementLocal.disabled = true;
   });
 
   const mapFeatures = document.querySelector('.map__features');
@@ -95,16 +97,16 @@ const makeFormАсtivated = () => {
   adFormHeader.disabled = false;
 
   const adFormElements = document.querySelectorAll('.ad-form__element');
-  adFormElements.forEach((el) => {
-    el.disabled = false;
+  adFormElements.forEach((elementLocal) => {
+    elementLocal.disabled = false;
   });
 
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.remove('map__filters--disabled');
 
   const mapFilter = document.querySelectorAll('.map__filter');
-  mapFilter.forEach((el) => {
-    el.disabled = false;
+  mapFilter.forEach((elementLocal) => {
+    elementLocal.disabled = false;
   });
 
   const mapFeatures = document.querySelector('.map__features');

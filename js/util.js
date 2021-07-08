@@ -2,6 +2,8 @@ import { getRandomInteger } from './mathfunction.js';
 import { getRandomDig } from './mathfunction.js';
 import { getZeroPad } from './mathfunction.js';
 
+const ALERT_SHOW_TIME = 5000;
+
 const TYPES = [
   'palace',
   'flat',
@@ -212,7 +214,6 @@ for (let index = 0; index <= 9; index++) {
 }
 
 //const OFFER = arrayProposal[0];
-const ALERT_SHOW_TIME = 5000;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');

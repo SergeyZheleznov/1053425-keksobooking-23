@@ -5,7 +5,6 @@ const submitButton = document.querySelector('.ad-form__submit');
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    //console.log('Карта инициализирована');
   })
   .setView({
     lat: 35.66589,
@@ -65,36 +64,55 @@ const resetSubmitButton = () => {
 resetButton.addEventListener('click', resetSubmitButton);
 submitButton.addEventListener('click', resetSubmitButton);
 
-const renderOffer = (points) => {
-  points.forEach((point) => {
-    const { lat, lng } = point.location;
+const pins = L.layerGroup();
 
-    const icon = L.icon({
-      iconUrl: ['img/pin.svg'],
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
+const renderOffers = (points) => {
+  points
+    .forEach((point) => {
+      const { lat, lng } = point.location;
 
-    const marker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon,
-      },
-    );
+      const icon = L.icon({
+        iconUrl: ['img/pin.svg'],
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
 
-    marker
-      .addTo(map)
-      .bindPopup(
-        createCustomPopup(point),
+      const marker = L.marker(
         {
-          keepInView: true,
+          lat,
+          lng,
+        },
+        {
+          icon,
         },
       );
-  });
+
+      marker
+        .addTo(pins)
+        .bindPopup(
+          createCustomPopup(point),
+          {
+            keepInView: true,
+          },
+        );
+    });
+  pins.addTo(map);
 };
 
-export {renderOffer};
-export {mainPinMarker};
+const cleanMap = () => {
+  pins.clearLayers ();
+};
+
+//Задание 12 часть 3
+//При изменении фильтра скрывать открытый балун с объявлением (при наличии)
+//Функция работает, при изменении фильтра балун скрывается у любой точки
+//функцию пока заблокирую, чтобы не мешала
+/*
+const mapFilter = document.querySelector('.map__filters');
+const hideBalun = () => {
+  const balun = document.querySelector('.leaflet-popup-pane');
+  balun.classList.add('hidden');
+};
+mapFilter.addEventListener('change', hideBalun);
+*/
+export { renderOffers, mainPinMarker, cleanMap };

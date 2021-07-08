@@ -16,10 +16,8 @@
       <img src="img/keksobooking.svg" alt="Keksobooking. Кексы по соседству" width="215" height="45">
     </div>
 
-    <!-- Карта объявлений -->
     <section class="map">
 
-      <!-- Блок для вставки карты -->
       <div class="map__canvas" id="map-canvas" style="width: 1200px; height: 480px;"></div>
 
       <div class="map__filters-container">
@@ -68,7 +66,6 @@
       </div>
     </section>
 
-    <!-- Форма объявления -->
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
       <form class="ad-form" method="post" action="https://23.javascript.pages.academy/keksobooking" enctype="multipart/form-data" autocomplete="off">
@@ -190,7 +187,6 @@
     </ul>
   </footer>
 
-  <!-- Карточка объявления -->
     <template id="card">
     <article class="popup">
       <img src="img/avatars/user01.png" class="popup__avatar" width="70" height="70" alt="Аватар пользователя">
@@ -215,14 +211,12 @@
     </article>
   </template>
 
-  <!-- Сообщение об успешном создании объявления -->
   <template id="success">
     <div class="success">
       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
     </div>
   </template>
 
-  <!-- Сообщение об ошибке создания объявления -->
   <template id="error">
     <div class="error">
       <p class="error__message">Ошибка размещения объявления</p>

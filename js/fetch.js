@@ -1,4 +1,3 @@
-//const messageErrorRequest = document.querySelector('.module-error-server-request');
 const getData = () =>
   fetch(
     'https://23.javascript.pages.academy/keksobooking/data',
@@ -50,21 +49,7 @@ const showMessageError = () => {
   });
 };
 
-//Функция по отправке данных, которые пользователь,
-//записал в форму, на сервер. Отправка по клику
-//Обработчик на форме. Функция не экспорт.
-
-//форма при правильном заполнении даёт вывод в консоль
-//фразы Форма отправлена хорошо! Статус ОК
-//Не знаю, как протестировать на неправильную отправку
-
 const sendData = (data) =>
-//  const mainForm = document.querySelector('.ad-form');
-
-//  mainForm.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-
-//    const formData = new FormData(evt.target);
 
   fetch(
     'https://23.javascript.pages.academy/keksobooking',
@@ -73,30 +58,5 @@ const sendData = (data) =>
       body: data,
     },
   );
-
-
-//sendData();
-// функция отменяет действие кнопки отправки формы по умолчанию
-// и отправляет запрос к серверу
-// Запрос к серверу работает, можно тестировать
-// sendData() undefined
-/*
-const sendFormButton = document.querySelector('.ad-form__submit');
-sendFormButton.onclick = function (event) {
-  event.preventDefault();
-  console.log('click');
-  sendData();
-  console.log(sendData());
-};
-*/
-
-//2.5. При успешной отправке формы или её очистке (нажатие
-//на кнопку .ad-form__reset) страница, не перезагружаясь,
-// переходит в состояние, когда:
-//все заполненные поля возвращаются в изначальное состояние;
-//фильтрация (состояние фильтров и отфильтрованные метки) сбрасывается;
-//метка адреса возвращается в исходное положение;
-//значение поля адреса корректируется соответственно исходному
-//положению метки.
 
 export { getData, sendData, showMessageSuccess, showMessageError };
