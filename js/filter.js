@@ -60,7 +60,6 @@ const checkFeatures = (data) => {
 
   const checkedFeaturesListValue = [];
   for (let index = 0; index < checkedFeaturesList.length; index++) {
-    checkedFeaturesList[index];
     checkedFeaturesListValue[index] = checkedFeaturesList[index].value;
   }
 

@@ -1,28 +1,9 @@
-import { sendData, showMessageSuccess, showMessageError } from './fetch.js';
-import { showAlert } from './util.js';
+import { sendData } from './fetch.js';
 import { mainPinMarker } from './map.js';
 
 const LATITUDE_CENTER_TOKIO = 35.66589;
 const LONGITUDE_CENTER_TOKIO = 139.74303;
-
-// Задача
-
-// Поле «Количество комнат» синхронизировано с полем «Количество мест»
-// таким образом, что при выборе количества комнат вводятся ограничения
-// на допустимые варианты выбора количества гостей:
-
-// 1 комната — «для 1 гостя»;
-// 2 комнаты — «для 2 гостей» или «для 1 гостя»;
-// 3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»;
-// 100 комнат — «не для гостей».
-
-// Обратите внимание: допускаются разные способы ограничения допустимых значений
-// поля «Количество мест»: удаление из разметки соответствующих элементов option,
-// добавление элементам option состояния disabled или другие способы ограничения,
-// например, с помощью метода setCustomValidity.
-
-// нужно вызывать метод setCustomValidity у нужного элемента с нужным текстом,
-// что бы при отправке неправильно заполненной формы сообщение об ошибке выскакивало
+const ALERT_SHOW_TIME = 5000;
 
 const selectRooms = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
@@ -47,20 +28,12 @@ selectRooms.addEventListener('change', listenerRoomsCapacity);
 
 selectCapacity.addEventListener('change', listenerRoomsCapacity);
 
-
-//Заполняем поле адреса карты на форме.
-//В домашке сказано, что Поле адреса должно быть заполнено всегда,
-//в том числе сразу после активации страницы.
-//По умолчанию используются координаты центра Токио. Конец цитаты
-//Мне кажется, что по умолчанию это значение поля placeholder
-//Поэтому кладу в placeholder значения координат центра Токио.
-
 const addressFormInput = document.querySelector('#address');
-
 addressFormInput.placeholder = `${LATITUDE_CENTER_TOKIO}, ${LONGITUDE_CENTER_TOKIO}`;
 
+const adForm = document.querySelector('.ad-form');
 
-//Эта часть файла занимается деактивацией и активацей формы.
+/*
 const adForm = document.querySelector('.ad-form');
 
 const deactivateForm = () => {
@@ -74,7 +47,7 @@ const deactivateForm = () => {
   adFormElements.forEach((elementLocal) => {
     elementLocal.disabled = true;
   });
-
+/*
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.add('map__filters--disabled');
 
@@ -85,10 +58,25 @@ const deactivateForm = () => {
 
   const mapFeatures = document.querySelector('.map__features');
   mapFeatures.disabled = true;
+  */
+ /*
 };
+*/
+const deactivateFilterForm = () => {
+const formMapFilters = document.querySelector('.map__filters');
+  formMapFilters.classList.add('map__filters--disabled');
 
-deactivateForm();
+  const mapFilter = document.querySelectorAll('.map__filter');
+  mapFilter.forEach((elementLocal) => {
+    elementLocal.disabled = true;
+  });
 
+  const mapFeatures = document.querySelector('.map__features');
+  mapFeatures.disabled = true;
+};
+/*
+//deactivateForm();
+/*
 const makeFormАсtivated = () => {
 
   adForm.classList.remove('ad-form--disabled');
@@ -100,7 +88,23 @@ const makeFormАсtivated = () => {
   adFormElements.forEach((elementLocal) => {
     elementLocal.disabled = false;
   });
+/*
+  const formMapFilters = document.querySelector('.map__filters');
+  formMapFilters.classList.remove('map__filters--disabled');
 
+  const mapFilter = document.querySelectorAll('.map__filter');
+  mapFilter.forEach((elementLocal) => {
+    elementLocal.disabled = false;
+  });
+
+  const mapFeatures = document.querySelector('.map__features');
+  mapFeatures.disabled = false;
+  */
+ /*
+};
+*/
+
+const aсtivateFilterForm  = () => {
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.remove('map__filters--disabled');
 
@@ -112,10 +116,6 @@ const makeFormАсtivated = () => {
   const mapFeatures = document.querySelector('.map__features');
   mapFeatures.disabled = false;
 };
-
-makeFormАсtivated();
-
-//эта часть файла устанавливает минимальную цена на жильё
 
 const typeHome = document.querySelector('#type');
 const priceFormNight = document.querySelector('#price');
@@ -148,8 +148,6 @@ const listenPrice = () => {
 typeHome.addEventListener('change', listenPrice);
 listenPrice();
 
-//эта часть файла определяет связь времени заезда и времени выезда
-
 const selectTimeIn = document.querySelector('#timein');
 const selectTimeOut = document.querySelector('#timeout');
 
@@ -177,45 +175,97 @@ const listenTimeOut = () => {
 
 selectTimeOut.addEventListener('change', listenTimeOut);
 
-//Функция по пункту 2.5 ТЗ - возврат полей формы в первоначальное состояние
-// и прочее.
-// эту функцию не совсем понятно, как тестировать.
-//
-
 const mapFilters = document.querySelector('.map__filters');
 const latLngAddress = document.querySelector('#address');
 const resetForm = () => {
-  // очищаем форму
   const mainForm = document.querySelector('.ad-form');
   mainForm.reset();
-  //Очищаем фильтры
   mapFilters.reset();
-  //метка адреса в исходное состояние
   mainPinMarker.setLatLng({
     lat: 35.66589,
     lng: 139.74303,
-  });// ставим в поле адреса эти координаты метки
+  });
   const lat = 35.66589;
   const lng = 139.74303;
   latLngAddress.textContent = `x = ${lat} y = ${lng}`;
 };
 
-//Навешиваем обработчик нажания кнопки на кнопку очистки формы.
+const showMessageSuccess = () => {
+  const elementBody = document.querySelector('body');
+  const templateSuccess = document.querySelector('#success').content.querySelector('.success');
+  const successElement = templateSuccess.cloneNode(true);
+  elementBody.appendChild(successElement);
+  elementBody.onclick = function () {
+    successElement.classList.add('hidden');
+  };
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      successElement.classList.add('hidden');
+    }
+  });
+};
+
+const showMessageError = () => {
+  const errorButton = document.querySelector('.error__button');
+  const elementBody = document.querySelector('body');
+  const templateError = document.querySelector('#error').content.querySelector('.error');
+  const errorElement = templateError.cloneNode(true);
+  elementBody.appendChild(errorElement);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      errorElement.classList.add('hidden');
+    }
+  });
+  elementBody.onclick = function () {
+    errorElement.classList.add('hidden');
+  };
+  errorButton.onclick = function () {
+    errorElement.classList.add('hidden');
+  };
+
+};
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 100;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 const resetFormButton = document.querySelector('.ad-form__reset');
-resetFormButton.addEventListener ('click', resetForm);
+resetFormButton.addEventListener('click', resetForm);
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   sendData(new FormData(adForm))
     .then((response) => {
       if (response.ok) {
+        resetForm();
         showMessageSuccess();
       } else {
         showMessageError();
       }
-      resetForm();
     })
+
     .catch(() => {
-      showAlert('2. Не удалось отправить форму. Попробуйте ещё раз');
+      showAlert();
     });
 });
+
+export {deactivateFilterForm, aсtivateFilterForm};

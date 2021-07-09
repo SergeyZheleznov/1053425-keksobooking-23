@@ -2,10 +2,32 @@ import { createCustomPopup } from './popup.js';
 
 const resetButton = document.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
+const adForm = document.querySelector('.ad-form');
 
 const map = L.map('map-canvas')
   .on('load', () => {
+    adForm.classList.remove('ad-form--disabled');
+
+    const adFormHeader = document.querySelector('.ad-form-header');
+    adFormHeader.disabled = false;
+
+    const adFormElements = document.querySelectorAll('.ad-form__element');
+    adFormElements.forEach((elementLocal) => {
+      elementLocal.disabled = false;
+    });
+
+    const formMapFilters = document.querySelector('.map__filters');
+    formMapFilters.classList.remove('map__filters--disabled');
+
+    const mapFilter = document.querySelectorAll('.map__filter');
+    mapFilter.forEach((elementLocal) => {
+      elementLocal.disabled = false;
+    });
+
+    const mapFeatures = document.querySelector('.map__features');
+    mapFeatures.disabled = false;
   })
+
   .setView({
     lat: 35.66589,
     lng: 139.74303,
@@ -100,19 +122,7 @@ const renderOffers = (points) => {
 };
 
 const cleanMap = () => {
-  pins.clearLayers ();
+  pins.clearLayers();
 };
 
-//Задание 12 часть 3
-//При изменении фильтра скрывать открытый балун с объявлением (при наличии)
-//Функция работает, при изменении фильтра балун скрывается у любой точки
-//функцию пока заблокирую, чтобы не мешала
-/*
-const mapFilter = document.querySelector('.map__filters');
-const hideBalun = () => {
-  const balun = document.querySelector('.leaflet-popup-pane');
-  balun.classList.add('hidden');
-};
-mapFilter.addEventListener('change', hideBalun);
-*/
 export { renderOffers, mainPinMarker, cleanMap };
