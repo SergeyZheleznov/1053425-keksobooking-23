@@ -1,5 +1,6 @@
 import { sendData } from './fetch.js';
 import { mainPinMarker } from './map.js';
+import { isEscEvent } from './utils/is-event.js';
 
 const LATITUDE_CENTER_TOKIO = 35.66589;
 const LONGITUDE_CENTER_TOKIO = 139.74303;
@@ -8,7 +9,7 @@ const ALERT_SHOW_TIME = 5000;
 const selectRooms = document.querySelector('#room_number');
 const selectCapacity = document.querySelector('#capacity');
 
-const listenerRoomsCapacity = () => {
+const onRoomsCapacityChange = () => {
   if (selectRooms.value === '1' && selectCapacity.value !== '1') {
     selectCapacity.setCustomValidity('Одна комната только для одного гостя');
   } else if (selectRooms.value === '2' && selectCapacity.value !== '1' && selectCapacity.value !== '2') {
@@ -24,21 +25,17 @@ const listenerRoomsCapacity = () => {
   selectCapacity.reportValidity();
 };
 
-selectRooms.addEventListener('change', listenerRoomsCapacity);
+selectRooms.addEventListener('change', onRoomsCapacityChange);
 
-selectCapacity.addEventListener('change', listenerRoomsCapacity);
+selectCapacity.addEventListener('change', onRoomsCapacityChange);
 
 const addressFormInput = document.querySelector('#address');
 addressFormInput.placeholder = `${LATITUDE_CENTER_TOKIO}, ${LONGITUDE_CENTER_TOKIO}`;
 
 const adForm = document.querySelector('.ad-form');
 
-/*
-const adForm = document.querySelector('.ad-form');
-
 const deactivateForm = () => {
-
-  adForm.classList.add('ad-form--disabled');
+  document.querySelector('.ad-form').classList.add('ad-form--disabled');
 
   const adFormHeader = document.querySelector('.ad-form-header');
   adFormHeader.disabled = true;
@@ -47,7 +44,9 @@ const deactivateForm = () => {
   adFormElements.forEach((elementLocal) => {
     elementLocal.disabled = true;
   });
-/*
+};
+
+const deactivateFilterForm = () => {
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.add('map__filters--disabled');
 
@@ -58,25 +57,8 @@ const deactivateForm = () => {
 
   const mapFeatures = document.querySelector('.map__features');
   mapFeatures.disabled = true;
-  */
- /*
 };
-*/
-const deactivateFilterForm = () => {
-const formMapFilters = document.querySelector('.map__filters');
-  formMapFilters.classList.add('map__filters--disabled');
 
-  const mapFilter = document.querySelectorAll('.map__filter');
-  mapFilter.forEach((elementLocal) => {
-    elementLocal.disabled = true;
-  });
-
-  const mapFeatures = document.querySelector('.map__features');
-  mapFeatures.disabled = true;
-};
-/*
-//deactivateForm();
-/*
 const makeFormАсtivated = () => {
 
   adForm.classList.remove('ad-form--disabled');
@@ -88,23 +70,9 @@ const makeFormАсtivated = () => {
   adFormElements.forEach((elementLocal) => {
     elementLocal.disabled = false;
   });
-/*
-  const formMapFilters = document.querySelector('.map__filters');
-  formMapFilters.classList.remove('map__filters--disabled');
-
-  const mapFilter = document.querySelectorAll('.map__filter');
-  mapFilter.forEach((elementLocal) => {
-    elementLocal.disabled = false;
-  });
-
-  const mapFeatures = document.querySelector('.map__features');
-  mapFeatures.disabled = false;
-  */
- /*
 };
-*/
 
-const aсtivateFilterForm  = () => {
+const aсtivateFilterForm = () => {
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.remove('map__filters--disabled');
 
@@ -120,7 +88,7 @@ const aсtivateFilterForm  = () => {
 const typeHome = document.querySelector('#type');
 const priceFormNight = document.querySelector('#price');
 
-const listenPrice = () => {
+const onPriceChange = () => {
   switch (typeHome.value) {
     case 'bungalow':
       priceFormNight.placeholder = 0;
@@ -145,13 +113,12 @@ const listenPrice = () => {
   }
 };
 
-typeHome.addEventListener('change', listenPrice);
-listenPrice();
+typeHome.addEventListener('change', onPriceChange);
 
 const selectTimeIn = document.querySelector('#timein');
 const selectTimeOut = document.querySelector('#timeout');
 
-const listenTimeIn = () => {
+const onTimeInChange = () => {
   if (selectTimeIn.value === '12:00') {
     selectTimeOut.value = '12:00';
   } else if (selectTimeIn.value === '13:00') {
@@ -161,9 +128,9 @@ const listenTimeIn = () => {
   }
 };
 
-selectTimeIn.addEventListener('change', listenTimeIn);
+selectTimeIn.addEventListener('change', onTimeInChange);
 
-const listenTimeOut = () => {
+const onTimeOutChange = () => {
   if (selectTimeOut.value === '12:00') {
     selectTimeIn.value = '12:00';
   } else if (selectTimeOut.value === '13:00') {
@@ -173,11 +140,11 @@ const listenTimeOut = () => {
   }
 };
 
-selectTimeOut.addEventListener('change', listenTimeOut);
+selectTimeOut.addEventListener('change', onTimeOutChange);
 
 const mapFilters = document.querySelector('.map__filters');
 const latLngAddress = document.querySelector('#address');
-const resetForm = () => {
+const onResetFormSubmit = () => {
   const mainForm = document.querySelector('.ad-form');
   mainForm.reset();
   mapFilters.reset();
@@ -190,42 +157,67 @@ const resetForm = () => {
   latLngAddress.textContent = `x = ${lat} y = ${lng}`;
 };
 
-const showMessageSuccess = () => {
-  const elementBody = document.querySelector('body');
-  const templateSuccess = document.querySelector('#success').content.querySelector('.success');
-  const successElement = templateSuccess.cloneNode(true);
+const elementBody = document.querySelector('body');
+const templateSuccess = document.querySelector('#success').content.querySelector('.success');
+const successElement = templateSuccess.cloneNode(true);
+
+function onElementBodyClick () {
+  successElement.remove();
+  elementBody.removeEventListener('click', onElementBodyClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+function onDocumentKeydown(evt) {
+  if (isEscEvent) {
+    evt.preventDefault();
+    successElement.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+    elementBody.removeEventListener('click', onElementBodyClick);
+  }
+}
+
+function showMessageSuccess() {
   elementBody.appendChild(successElement);
-  elementBody.onclick = function () {
-    successElement.classList.add('hidden');
-  };
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      successElement.classList.add('hidden');
-    }
-  });
-};
 
-const showMessageError = () => {
-  const errorButton = document.querySelector('.error__button');
-  const elementBody = document.querySelector('body');
-  const templateError = document.querySelector('#error').content.querySelector('.error');
-  const errorElement = templateError.cloneNode(true);
+  elementBody.addEventListener('click', onElementBodyClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+}
+
+
+const templateError = document.querySelector('#error').content.querySelector('.error');
+const errorElement = templateError.cloneNode(true);
+const errorButton = errorElement.querySelector('.error__button');
+function onDocumentErrorKeydown(evt) {
+  if (isEscEvent) {
+    evt.preventDefault();
+    errorElement.remove();
+    document.removeEventListener('keydown', onDocumentErrorKeydown);
+    elementBody.removeEventListener('click', onElementBodyErrorClick);
+    errorButton.removeEventListener('click', onErrorButtonClick);
+  }
+}
+
+function onElementBodyErrorClick() {
+  errorElement.remove();
+  document.removeEventListener('keydown', onDocumentErrorKeydown);
+  elementBody.removeEventListener('click', onElementBodyErrorClick);
+  errorButton.removeEventListener('click', onErrorButtonClick);
+}
+
+function onErrorButtonClick() {
+  errorElement.remove();
+  document.removeEventListener('keydown', onDocumentErrorKeydown);
+  elementBody.removeEventListener('click', onElementBodyErrorClick);
+  errorButton.removeEventListener('click', onErrorButtonClick);
+}
+
+function showMessageError () {
   elementBody.appendChild(errorElement);
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      errorElement.classList.add('hidden');
-    }
-  });
-  elementBody.onclick = function () {
-    errorElement.classList.add('hidden');
-  };
-  errorButton.onclick = function () {
-    errorElement.classList.add('hidden');
-  };
 
-};
+  document.addEventListener('keydown', onDocumentErrorKeydown);
+  elementBody.addEventListener('click', onElementBodyErrorClick);
+  errorButton.addEventListener('click', onErrorButtonClick);
+}
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -249,14 +241,14 @@ const showAlert = (message) => {
 };
 
 const resetFormButton = document.querySelector('.ad-form__reset');
-resetFormButton.addEventListener('click', resetForm);
+resetFormButton.addEventListener('click', onResetFormSubmit);
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   sendData(new FormData(adForm))
     .then((response) => {
       if (response.ok) {
-        resetForm();
+        onResetFormSubmit();
         showMessageSuccess();
       } else {
         showMessageError();
@@ -268,4 +260,4 @@ adForm.addEventListener('submit', (evt) => {
     });
 });
 
-export {deactivateFilterForm, aсtivateFilterForm};
+export { deactivateFilterForm, aсtivateFilterForm, makeFormАсtivated, deactivateForm };

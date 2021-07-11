@@ -10,7 +10,7 @@ const getData = () =>
 
 const sendData = (data) =>
   fetch(
-    'https://23.javascript.pages.academy/keksobookin',
+    'https://23.javascript.pages.academy/keksobooking',
     {
       method: 'POST',
       body: data,
