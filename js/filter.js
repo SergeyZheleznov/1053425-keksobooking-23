@@ -1,9 +1,13 @@
 const NUMBERS_OF_OFFERS = 10;
 
+
 const checkType = (data) => {
-  const housingType = document.querySelector('#housing-type');
-  const housingTypeRus = housingType.options[housingType.selectedIndex].text;
-  if (housingTypeRus === 'Любой тип жилья' || housingTypeRus === data.offer.type) {
+  const housingType = document.querySelector('#housing-type').value;
+  const dataOfferType = data.offer.type;
+
+  if (housingType === 'any') {
+    return true;
+  } else if (dataOfferType === housingType) {
     return true;
   }
   return false;
@@ -58,18 +62,18 @@ const checkGuests = (data) => {
 const checkFeatures = (data) => {
   const checkedFeaturesList = document.querySelectorAll('.map__checkbox:checked');
 
-  const checkedFeaturesListValue = [];
+  const checkedFeaturesListValues = [];
   for (let index = 0; index < checkedFeaturesList.length; index++) {
-    checkedFeaturesListValue[index] = checkedFeaturesList[index].value;
+    checkedFeaturesListValues[index] = checkedFeaturesList[index].value;
   }
 
   const dataOfferFeatures = data.offer.features;
 
-  if (checkedFeaturesListValue.length === 0) {
+  if (checkedFeaturesListValues.length === 0) {
     return true;
   } else {
     if (dataOfferFeatures !== undefined) {
-      return checkedFeaturesListValue.every((element) => dataOfferFeatures.includes(element));
+      return checkedFeaturesListValues.every((element) => dataOfferFeatures.includes(element));
     }
     return false;
   }

@@ -17,29 +17,19 @@ const createCustomPopup = (point) => {
   }
   popupElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
 
-  switch (point.offer.type) {
-    case 'bungalow':
-      point.offer.type = 'Бунгало';
-      break;
-    case 'house':
-      point.offer.type = 'Дом';
-      break;
-    case 'palace':
-      point.offer.type = 'Дворец';
-      break;
-    case 'flat':
-      point.offer.type = 'Квартира';
-      break;
-    case 'hotel':
-      point.offer.type = 'Отель';
-      break;
-  }
+  const housingTypes = {
+    'bungalo': 'Бунгало',
+    'flat': 'Квартира',
+    'hotel': 'Отель',
+    'house': 'Дом',
+    'palase': 'Дворец',
+  };
 
   if (!point.offer.type) {
     popupElement.querySelector('.popup__type').classList.add('hidden');
   }
 
-  popupElement.querySelector('.popup__type').textContent = point.offer.type;
+  popupElement.querySelector('.popup__type').textContent = housingTypes[point.offer.type];
 
   if (!point.offer.rooms) {
     popupElement.querySelector('.popup__text--capacity').classList.add('hidden');

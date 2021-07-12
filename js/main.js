@@ -10,6 +10,7 @@ const mapFilter = document.querySelector('.map__filters');
 
 deactivateForm();
 deactivateFilterForm();
+
 setMap();
 getData().then((response) => {
   const offers = filterOffers(response);
@@ -20,3 +21,4 @@ getData().then((response) => {
     renderOffers(filterOffers(response));
   }, RERENDER_DELAY));
 });
+

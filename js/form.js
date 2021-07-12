@@ -30,7 +30,7 @@ selectRooms.addEventListener('change', onRoomsCapacityChange);
 selectCapacity.addEventListener('change', onRoomsCapacityChange);
 
 const addressFormInput = document.querySelector('#address');
-addressFormInput.placeholder = `${LATITUDE_CENTER_TOKIO}, ${LONGITUDE_CENTER_TOKIO}`;
+addressFormInput.value = `${LATITUDE_CENTER_TOKIO}, ${LONGITUDE_CENTER_TOKIO}`;
 
 const adForm = document.querySelector('.ad-form');
 
@@ -148,6 +148,7 @@ const onResetFormSubmit = () => {
   const mainForm = document.querySelector('.ad-form');
   mainForm.reset();
   mapFilters.reset();
+  onPriceChange();
   mainPinMarker.setLatLng({
     lat: 35.66589,
     lng: 139.74303,
