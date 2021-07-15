@@ -1,6 +1,5 @@
 import { sendData } from './fetch.js';
 import { mainPinMarker } from './map.js';
-import { isEscEvent } from './utils/is-event.js';
 
 const LATITUDE_CENTER_TOKIO = 35.66589;
 const LONGITUDE_CENTER_TOKIO = 139.74303;
@@ -46,7 +45,7 @@ const deactivateForm = () => {
   });
 };
 
-const deactivateFilterForm = () => {
+const  deactivateFilterForm = () => {
   const formMapFilters = document.querySelector('.map__filters');
   formMapFilters.classList.add('map__filters--disabled');
 
@@ -113,7 +112,7 @@ const onPriceChange = () => {
   }
 };
 
-typeHome.addEventListener('change', onPriceChange);
+typeHome.addEventListener('change',onPriceChange);
 
 const selectTimeIn = document.querySelector('#timein');
 const selectTimeOut = document.querySelector('#timeout');
@@ -140,11 +139,11 @@ const onTimeOutChange = () => {
   }
 };
 
-selectTimeOut.addEventListener('change', onTimeOutChange);
+selectTimeOut.addEventListener('change',  onTimeOutChange);
 
 const mapFilters = document.querySelector('.map__filters');
 const latLngAddress = document.querySelector('#address');
-const onResetFormSubmit = () => {
+const  onResetFormSubmit = () => {
   const mainForm = document.querySelector('.ad-form');
   mainForm.reset();
   mapFilters.reset();
@@ -169,7 +168,7 @@ function onElementBodyClick () {
 }
 
 function onDocumentKeydown(evt) {
-  if (isEscEvent) {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
     evt.preventDefault();
     successElement.remove();
     document.removeEventListener('keydown', onDocumentKeydown);
@@ -189,7 +188,7 @@ const templateError = document.querySelector('#error').content.querySelector('.e
 const errorElement = templateError.cloneNode(true);
 const errorButton = errorElement.querySelector('.error__button');
 function onDocumentErrorKeydown(evt) {
-  if (isEscEvent) {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
     evt.preventDefault();
     errorElement.remove();
     document.removeEventListener('keydown', onDocumentErrorKeydown);
@@ -261,4 +260,4 @@ adForm.addEventListener('submit', (evt) => {
     });
 });
 
-export { deactivateFilterForm, aсtivateFilterForm, makeFormАсtivated, deactivateForm };
+export { deactivateFilterForm, aсtivateFilterForm, makeFormАсtivated, deactivateForm, showAlert };

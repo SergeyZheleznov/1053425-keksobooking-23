@@ -49,6 +49,10 @@ const createCustomPopup = (point) => {
   }
   popupElement.querySelector('.popup__text--time').textContent = `Заезд до ${point.offer.checkin} выезд после ${point.offer.checkout}`;
 
+  if (!point.offer.features) {
+    popupElement.querySelector('.popup__features').classList.add('hidden');
+  }
+
   const list = popupElement.querySelector('.popup__features');
   const featureNew = popupElement.querySelector('.popup__feature');
   list.innerHTML = '';
@@ -78,10 +82,14 @@ const createCustomPopup = (point) => {
       dupNodePhotos.src = `${photoNewIndex}`;
       listPhotos.appendChild(dupNodePhotos);
     }
+  } else {
+    popupElement.querySelector('.popup__photos').classList.add('hidden');
   }
-
-  popupElement.querySelector('.popup__avatar').src = point.author.avatar;
-
+  if (point.author.avatar) {
+    popupElement.querySelector('.popup__avatar').src = point.author.avatar;
+  } else {
+    popupElement.querySelector('.popup__avatar').classList.add('hidden');
+  }
   return popupElement;
 };
 

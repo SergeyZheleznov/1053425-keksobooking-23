@@ -1,5 +1,11 @@
 import { createCustomPopup } from './popup.js';
-import { makeFormАсtivated } from './form.js';
+import { makeFormАсtivated, aсtivateFilterForm, showAlert } from './form.js';
+import { getData } from './fetch.js';
+import { filterOffers } from './filter.js';
+import { debounce } from './debounce.js';
+
+const RERENDER_DELAY = 500;
+const mapFilter = document.querySelector('.map__filters');
 const resetButton = document.querySelector('.ad-form__reset');
 const submitButton = document.querySelector('.ad-form__submit');
 const mainPinIcon = L.icon({
@@ -19,12 +25,63 @@ const mainPinMarker = L.marker(
   },
 );
 
+const pins = L.layerGroup();
+
 let map;
+
+const renderOffers = (points) => {
+  points
+    .forEach((point) => {
+      const { lat, lng } = point.location;
+
+      const icon = L.icon({
+        iconUrl: ['img/pin.svg'],
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+
+      const marker = L.marker(
+        {
+          lat,
+          lng,
+        },
+        {
+          icon,
+        },
+      );
+
+      marker
+        .addTo(pins)
+        .bindPopup(
+          createCustomPopup(point),
+          {
+            keepInView: true,
+          },
+        );
+    });
+  pins.addTo(map);
+};
+
+const cleanMap = () => {
+  pins.clearLayers();
+};
 
 const setMap = () => {
   map = L.map('map-canvas')
     .on('load', () => {
       makeFormАсtivated();
+      getData().then((response) => {
+        const offers = filterOffers(response);
+        aсtivateFilterForm();
+        renderOffers(offers);
+        mapFilter.addEventListener('change', debounce(() => {
+          cleanMap();
+          renderOffers(filterOffers(response));
+        }, RERENDER_DELAY));
+      })
+        .catch(() => {
+          showAlert('Ошибка загрузки, обновить страницу');
+        });
     })
     .setView({
       lat: 35.66589,
@@ -67,44 +124,5 @@ const resetSubmitButton = () => {
 
 resetButton.addEventListener('click', resetSubmitButton);
 submitButton.addEventListener('click', resetSubmitButton);
-
-const pins = L.layerGroup();
-
-const renderOffers = (points) => {
-  points
-    .forEach((point) => {
-      const { lat, lng } = point.location;
-
-      const icon = L.icon({
-        iconUrl: ['img/pin.svg'],
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      const marker = L.marker(
-        {
-          lat,
-          lng,
-        },
-        {
-          icon,
-        },
-      );
-
-      marker
-        .addTo(pins)
-        .bindPopup(
-          createCustomPopup(point),
-          {
-            keepInView: true,
-          },
-        );
-    });
-  pins.addTo(map);
-};
-
-const cleanMap = () => {
-  pins.clearLayers();
-};
 
 export { renderOffers, mainPinMarker, cleanMap, setMap };
